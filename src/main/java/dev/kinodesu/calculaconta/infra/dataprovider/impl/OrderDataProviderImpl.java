@@ -1,0 +1,31 @@
+package dev.kinodesu.calculaconta.infra.dataprovider.impl;
+
+import dev.kinodesu.calculaconta.domain.entity.Order;
+import dev.kinodesu.calculaconta.infra.dataprovider.OrderDataProvider;
+import dev.kinodesu.calculaconta.infra.mapper.OrderDataMapper;
+import dev.kinodesu.calculaconta.infra.repository.OrderRepository;
+import dev.kinodesu.calculaconta.infra.repository.data.OrderData;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
+public class OrderDataProviderImpl implements OrderDataProvider {
+
+    private final OrderDataMapper orderDataMapper;
+    private final OrderRepository orderRepository;
+
+    @Override
+    public void saveNewOrder(Order order) {
+        OrderData orderData = orderDataMapper.toData(order);
+        orderRepository.save(orderData);
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
+        List<OrderData> userDataList = orderRepository.findAll();
+        return orderDataMapper.toEntity(userDataList);
+    }
+}

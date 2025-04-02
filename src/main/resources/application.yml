@@ -1,0 +1,43 @@
+spring:
+  main:
+    banner-mode: 'console'
+  application:
+    name: calculaconta
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  datasource:
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/calculaconta}
+    username: ${DATABASE_USER:root}
+    password: ${DATABASE_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    prefix:
+      jdbc-url: ${DATABASE_URL:jdbc:mysql://localhost:3306/calculaconta}
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /calculaconta
+  max-http-request-header-size: 24576
+  tomcat:
+    max-http-response-header-size: 24576
+
+management:
+  endpoint:
+    health:
+      show-details: "ALWAYS"
+      probes:
+        enabled: true
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+
+probe:
+  path: /calculaconta/actuator/health
+  port: http
+  initialDelaySecondsLiveness: 120
+  initialDelaySecondsReadness: 120
+
