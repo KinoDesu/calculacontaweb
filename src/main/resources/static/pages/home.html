@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style/home.css">
+    <script>
+        const roomCode = "[[${roomCode}]]";
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/home.js" defer></script>
+</head>
+
+<body>
+
+    <header class="default_hdr">
+        <h1 class="default_hdr_txt">Pedidos</h1>
+        <div id="room_header_div">
+            <h3 class="secondary_text">Sala:</h3>
+            <h3 id="room_code" class="secondary_text">[[${roomCode}]]</h3>
+        </div>
+    </header>
+    <main>
+        <section id="order_section">
+        </section>
+        <div class="btn_menu">
+            <button class="default_btn" id="make_order_btn">FAZER PEDIDO</button>
+            <button class="default_btn" id="pay_btn">PAGAR</button>
+        </div>
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style/order.css">
+    <script>
+        const roomCode = "[[${roomCode}]]";
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/order.js" defer></script>
+</head>
+
+<body>
+
+    <header class="default_hdr">
+        <h1 class="default_hdr_txt">Fazer Pedido</h1>
+    </header>
+    <main>
+
+        <section class="default_form_section" id="order_form">
+            <form class="default_form" id="order_form">
+                <div class=" default_input_div" id="name_input_div">
+                    <label for="name_input" class="default_input_lbl">Nome:</label>
+                    <input type="text" name="name_input" id="name_input" class="default_input" required minlength="3"
+                        maxlength="15">
+                </div>
+
+                <div class="default_double_input">
+                    <div class="default_input_div" id="price_input_div">
+                        <label for="price_input" class="default_input_lbl">Valor:</label>
+                        <input type="number" name="price_input" id="price_input" class="default_input" value="0.00"
+                            required min="0" step="0.01" pattern="^\d*(\.\d{0,2})?$">
+                    </div>
+                    <div class="default_input_div" id="quantity_input_div">
+                        <label for="quantity_input" class="default_input_lbl">Quantidade:</label>
+                        <input type="number" name="quantity_input" id="quantity_input" class="default_input" required
+                            min="1" value="1">
+                    </div>
+                </div>
+
+                <section id="user_list_section">
+
+                    <h2 class="secondary_text" id="user_list_title">Participantes:</h2>
+
+                    <div id="user_list">
+                    </div>
+
+                </section>
+
+                <div class="btn_menu">
+                    <button class="default_btn" id="cancel_btn">CANCELAR</button>
+                    <button class="default_btn" id="order_btn">ADICIONAR PEDIDO</button>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+</body>
+
+</html>

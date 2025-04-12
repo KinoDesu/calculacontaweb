@@ -25,13 +25,16 @@ public class OrderUseCaseImpl implements OrderUseCase {
         orderDataProvider.saveNewOrder(order);
 
         order.getUserList().forEach(user -> {
-            double totalAmount = user.getTotalAmount() + order.getPricePerPerson();
+            double totalAmount =
+                    Double.parseDouble(String.format("%.2f", user.getTotalAmount() + order.getPricePerPerson()));
+
+            user.setTotalAmount(totalAmount);
             userDataProvider.updateTotalAmount(user.getUserId(), totalAmount);
         });
     }
 
     @Override
-    public List<Order> getAllOrders() {
-        return orderDataProvider.getAllOrders();
+    public List<Order> getAllOrdersByRoomCode(String roomCode) {
+        return orderDataProvider.getAllOrdersByRoomCode(roomCode);
     }
 }

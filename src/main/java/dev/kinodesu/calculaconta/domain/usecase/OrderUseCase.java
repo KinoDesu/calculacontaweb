@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface OrderUseCase {
     void saveNewOrder(Order order);
-    List<Order> getAllOrders();
+    List<Order> getAllOrdersByRoomCode(String roomCode);
 }

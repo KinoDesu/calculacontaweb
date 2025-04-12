@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Builder
-public class OrderData {
+public class OrderData extends AuditBaseData {
 
     @Id
     @UuidGenerator
@@ -43,6 +44,10 @@ public class OrderData {
 
     @Column(name = "totalPrice")
     private double totalPrice;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id", nullable = false)
+    private RoomData room;
 
     @ManyToMany
     @JoinTable(

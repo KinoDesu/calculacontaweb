@@ -5,7 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +27,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Builder
-public class UserData {
+public class UserData extends AuditBaseData{
 
     @Id
     @UuidGenerator
@@ -38,6 +40,10 @@ public class UserData {
 
     @Column(name = "totalAmount")
     private double totalAmount;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id", nullable = false)
+    private RoomData room;
 
     @ManyToMany(mappedBy = "userList")
     private List<OrderData> orders;

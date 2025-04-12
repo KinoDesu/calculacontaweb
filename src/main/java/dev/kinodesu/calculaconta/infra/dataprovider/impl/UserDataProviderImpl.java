@@ -18,9 +18,9 @@ public class UserDataProviderImpl implements UserDataProvider {
     private final UserDataMapper userDataMapper;
 
     @Override
-    public void saveNewUser(User user) {
+    public User saveNewUser(User user) {
         UserData userData = userDataMapper.toData(user);
-        userRepository.save(userData);
+        return userDataMapper.toEntity(userRepository.save(userData));
     }
 
     @Override
@@ -38,5 +38,15 @@ public class UserDataProviderImpl implements UserDataProvider {
     @Override
     public void updateTotalAmount(String id, double totalAmount) {
         userRepository.updateTotalAmountById(id, totalAmount);
+    }
+
+    @Override
+    public List<User> getAllUsersByRoom(String roomCode) {
+        return userDataMapper.toEntity(userRepository.findAllByRoomCode(roomCode));
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userRepository.save(userDataMapper.toData(user));
     }
 }

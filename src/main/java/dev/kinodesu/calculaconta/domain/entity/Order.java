@@ -19,6 +19,7 @@ public class Order {
     private double unitPrice;
     private int quantity;
     private double totalPrice;
+    private Room room;
     private List<User> userList;
     private double pricePerPerson;
 }

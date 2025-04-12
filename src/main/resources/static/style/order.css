@@ -1,0 +1,51 @@
+@import url(main.css);
+
+#user_list_section {
+    text-align: left;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#user_list_title {
+    font-size: 24px;
+}
+
+#user_list {
+    max-height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.user_input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--PrimaryDark);
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    border-radius: 5px;
+}
+
+.user_input:checked {
+    background-color: var(--PrimaryDark);
+    border-color: var(--PrimaryDark);
+}
+
+.user_input:checked::after {
+    content: "✔";
+    color: var(--BackgroundDark);
+    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

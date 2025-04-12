@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style/payment.css">
+    <script>
+        const roomCode = "[[${roomCode}]]";
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/payment.js" defer></script>
+</head>
+
+<body>
+
+    <header class="default_hdr">
+        <h1 class="default_hdr_txt">Conta Final</h1>
+    </header>
+    <main>
+
+        <section id="bill_user_section">
+            <section id="billing_section">
+                <div id="subtotal_box">
+                    <h3 class="primary_text" id="subtotal_title">Subtotal</h3>
+                    <h3 class="secondary_text" id="subtotal_value">R$ (subtotal)</h3>
+                </div>
+                <div id="service_box">
+                    <label for="service_input" class="default_input_lbl">Serviço:</label>
+                    <input type="number" name="service_input" id="service_input" class="default_input" required
+                        value="0" min="0" max="100">
+                    <label for="service_input" class="default_input_lbl">%</label>
+                </div>
+
+                <div id="total_box">
+                    <h3 class="primary_text" id="total_title">Total</h3>
+                    <h3 class="secondary_text" id="total_value">R$ (total)</h3>
+                </div>
+            </section>
+
+            <span id="divider"></span>
+
+            <section id="user_billing_section">
+                <section id="user_box_section">
+                </section>
+            </section>
+        </section>
+        <div class="btn_menu">
+            <button class="default_btn" id="cancel_btn">CANCELAR</button>
+            <button class="default_btn" id="end_btn">FINALIZAR PAGAMENTO</button>
+        </div>
+
+    </main>
+
+</body>
+
+</html>

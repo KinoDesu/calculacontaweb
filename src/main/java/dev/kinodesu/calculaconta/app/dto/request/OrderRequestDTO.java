@@ -18,5 +18,6 @@ public class OrderRequestDTO {
     private String name;
     private double unitPrice;
     private int quantity;
+    private String roomCode;
     private List<UUID> userList;
 }

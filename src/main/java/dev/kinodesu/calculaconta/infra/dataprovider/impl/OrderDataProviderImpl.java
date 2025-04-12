@@ -24,8 +24,8 @@ public class OrderDataProviderImpl implements OrderDataProvider {
     }
 
     @Override
-    public List<Order> getAllOrders() {
-        List<OrderData> userDataList = orderRepository.findAll();
+    public List<Order> getAllOrdersByRoomCode(String roomCode) {
+        List<OrderData> userDataList = orderRepository.findAllByRoomCode(roomCode);
         return orderDataMapper.toEntity(userDataList);
     }
 }

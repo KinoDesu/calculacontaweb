@@ -5,6 +5,7 @@ import dev.kinodesu.calculaconta.app.service.OrderService;
 import dev.kinodesu.calculaconta.domain.entity.Order;
 import dev.kinodesu.calculaconta.domain.entity.User;
 import dev.kinodesu.calculaconta.domain.usecase.OrderUseCase;
+import dev.kinodesu.calculaconta.domain.usecase.RoomUseCase;
 import dev.kinodesu.calculaconta.domain.usecase.UserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderUseCase orderUseCase;
     private final UserUseCase userUseCase;
+    private final RoomUseCase roomUseCase;
 
     @Override
     public void saveNewOrder(OrderRequestDTO orderRequestDTO) {
@@ -31,16 +33,17 @@ public class OrderServiceImpl implements OrderService {
                 .name(orderRequestDTO.getName())
                 .unitPrice(orderRequestDTO.getUnitPrice())
                 .quantity(orderRequestDTO.getQuantity())
-                .totalPrice(totalPrice)
+                .totalPrice(Double.parseDouble(String.format("%.2f", totalPrice)))
                 .userList(userList)
-                .pricePerPerson(pricePerPerson)
+                .room(roomUseCase.findByCode(orderRequestDTO.getRoomCode()))
+                .pricePerPerson(Double.parseDouble(String.format("%.2f", pricePerPerson)))
                 .build();
 
         orderUseCase.saveNewOrder(order);
     }
 
     @Override
-    public List<Order> getAllOrders() {
-        return orderUseCase.getAllOrders();
+    public List<Order> getAllOrdersByRoomCode(String roomCode) {
+        return orderUseCase.getAllOrdersByRoomCode(roomCode);
     }
 }

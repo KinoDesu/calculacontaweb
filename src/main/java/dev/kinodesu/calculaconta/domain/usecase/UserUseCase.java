@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserUseCase {
-    void saveNewUser(User user);
+    User saveNewUser(User user);
 
     List<User> getAllUsers();
 
     User getUserById(UUID id);
+
+    List<User> getAllUsersByRoom(String roomCode);
 }

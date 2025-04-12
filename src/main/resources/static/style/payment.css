@@ -1,0 +1,77 @@
+@import url(main.css);
+
+.secondary_text {
+    font-size: 100%;
+}
+
+#service_box {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+}
+
+#service_input {
+    max-width: 100px;
+}
+
+#billing_section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+#service_input {
+    text-align: center;
+}
+
+#bill_user_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+
+#user_billing_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#divider {
+    display: block;
+    height: 8px;
+    width: 80%;
+    background-color: var(--InputDark);
+    opacity: .5;
+    content: " ";
+    margin: 20px 0;
+    border-radius: 10px;
+}
+
+#user_box_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    width: 90%;
+    gap: 20px;
+}
+
+.user_billing_box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.user_price_div {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}

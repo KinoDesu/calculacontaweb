@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ import java.net.URI;
 @RestController
 @CrossOrigin("*")
 @RequiredArgsConstructor
-@RequestMapping(value = "/order")
+@RequestMapping(value = "/api/order")
 public class OrderControllerImpl implements OrderController {
 
     private final OrderService orderService;
@@ -30,8 +31,8 @@ public class OrderControllerImpl implements OrderController {
     }
 
     @Override
-    @GetMapping
-    public ResponseEntity<Object> getAllOrders() {
-        return ResponseEntity.ok(orderService.getAllOrders());
+    @GetMapping("/{roomCode}")
+    public ResponseEntity<Object> getAllOrdersByRoomCode(@PathVariable String roomCode) {
+        return ResponseEntity.ok(orderService.getAllOrdersByRoomCode(roomCode));
     }
 }

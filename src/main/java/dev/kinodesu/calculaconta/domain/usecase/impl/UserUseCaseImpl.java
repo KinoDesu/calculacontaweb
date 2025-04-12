@@ -1,5 +1,7 @@
 package dev.kinodesu.calculaconta.domain.usecase.impl;
 
+import dev.kinodesu.calculaconta.domain.command.RoomUserCommand;
+import dev.kinodesu.calculaconta.domain.entity.Room;
 import dev.kinodesu.calculaconta.domain.entity.User;
 import dev.kinodesu.calculaconta.domain.usecase.UserUseCase;
 import dev.kinodesu.calculaconta.infra.dataprovider.UserDataProvider;
@@ -12,15 +14,23 @@ import java.util.UUID;
 public class UserUseCaseImpl implements UserUseCase {
 
     private final UserDataProvider userDataProvider;
+    private final RoomUserCommand roomUserCommand;
 
-    public UserUseCaseImpl(UserDataProvider userDataProvider) {
+    public UserUseCaseImpl(UserDataProvider userDataProvider, RoomUserCommand roomUserCommand) {
         this.userDataProvider = userDataProvider;
+        this.roomUserCommand = roomUserCommand;
     }
 
     @Override
-    public void saveNewUser(User user) {
+    public User saveNewUser(User user) {
         log.info("save user");
-        userDataProvider.saveNewUser(user);
+
+        if (user.getRoom() == null) {
+            Room newRoom = roomUserCommand.createRoom();
+            user.setRoom(newRoom);
+        }
+
+        return userDataProvider.saveNewUser(user);
     }
 
     @Override
@@ -32,5 +42,10 @@ public class UserUseCaseImpl implements UserUseCase {
     @Override
     public User getUserById(UUID id) {
         return userDataProvider.getUserById(id.toString());
+    }
+
+    @Override
+    public List<User> getAllUsersByRoom(String roomCode) {
+        return userDataProvider.getAllUsersByRoom(roomCode);
     }
 }

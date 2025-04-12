@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface OrderService {
     void saveNewOrder(OrderRequestDTO order);
-    List<Order> getAllOrders();
+    List<Order> getAllOrdersByRoomCode(String roomCode);
 }

@@ -6,7 +6,11 @@ import dev.kinodesu.calculaconta.domain.entity.User;
 import java.util.List;
 
 public interface UserService {
-    void saveNewUser(UserRequestDTO userRequestDTO);
+    User saveNewUser(UserRequestDTO userRequestDTO);
 
     List<User> getAllUsers();
+
+    List<User> getAllUsersByRoom(String roomCode);
+
+    User getUserById(String userId);
 }

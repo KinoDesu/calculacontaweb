@@ -1,0 +1,112 @@
+@import url(main.css);
+
+#room_header_div {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+#room_code {
+    cursor: pointer;
+}
+
+#order_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.order_details {
+    width: 90%;
+}
+
+.order_details :not(summary, h3) {
+    background-color: var(--SecondaryDark);
+}
+
+.order_details>summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    width: 100%;
+    margin: 8px 0;
+    justify-content: center;
+}
+
+.order_name {
+    justify-self: end;
+    text-align: end;
+}
+
+.order_price {
+    justify-self: start;
+}
+
+.order_details>summary>h3 {
+    font-weight: bold;
+    font-size: 100%;
+}
+
+.order_details_users {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--SecondaryDark);
+}
+
+.order_user_box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    width: 100%;
+    margin: 8px 0;
+    justify-content: center;
+}
+
+.order_user_box>h3 {
+    font-size: 100%;
+}
+
+.order_user_box>div {
+    content: " ";
+}
+
+.user_name {
+    justify-self: end;
+}
+
+.user_price {
+    justify-self: start;
+}
+
+.order_detail_btn_menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    padding: 15px;
+}
+
+.order_detail_btn_menu>button {
+    border: none;
+    background-color: var(--PrimaryDark);
+    padding: 5px;
+    border-radius: 5px;
+    color: var(--SecondaryTextDark);
+    user-select: none;
+    box-shadow: 3px 3px 5px black;
+    text-transform: uppercase;
+    border: none;
+    font-weight: bold;
+}
+
+.order_detail_btn_menu>button:hover {
+    filter: brightness(0.8);
+    cursor: pointer;
+}

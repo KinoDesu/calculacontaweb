@@ -13,4 +13,5 @@ import lombok.Setter;
 @Builder
 public class UserRequestDTO {
     private String name;
+    private String roomCode;
 }

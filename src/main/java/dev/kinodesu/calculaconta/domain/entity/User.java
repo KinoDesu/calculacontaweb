@@ -14,5 +14,6 @@ import lombok.Setter;
 public class User {
     private String userId;
     private String name;
+    private Room room;
     private double totalAmount;
 }
