@@ -6,12 +6,14 @@ import dev.kinodesu.calculaconta.app.service.UserService;
 import dev.kinodesu.calculaconta.domain.entity.Room;
 import dev.kinodesu.calculaconta.domain.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.NoSuchElementException;
 
@@ -53,20 +55,20 @@ public class PageControllerImpl implements PageController {
             Room room = roomService.findByCode(code);
 
             if (userId == null || userId.isBlank() || userId.equalsIgnoreCase("undefined")) {
-                return "redirect:/";
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
 
             User user = userService.getUserById(userId);
 
             if (!user.getRoom().getRoomId().equals(room.getRoomId())) {
 
-                return "redirect:/";
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
 
             model.addAttribute("roomCode", code);
             return "pages/home";
         } catch (NoSuchElementException ex) {
-            return "redirect:/";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -79,20 +81,20 @@ public class PageControllerImpl implements PageController {
             Room room = roomService.findByCode(roomCode);
 
             if (userId == null || userId.isBlank()) {
-                return "redirect:/";
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
 
             User user = userService.getUserById(userId);
 
             if (!user.getRoom().getRoomId().equals(room.getRoomId())) {
 
-                return "redirect:/";
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
 
             model.addAttribute("roomCode", roomCode);
             return "pages/order";
         } catch (NoSuchElementException ex) {
-            return "redirect:/";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -106,20 +108,20 @@ public class PageControllerImpl implements PageController {
             Room room = roomService.findByCode(roomCode);
 
             if (userId == null || userId.isBlank()) {
-                return "redirect:/";
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
 
             User user = userService.getUserById(userId);
 
             if (!user.getRoom().getRoomId().equals(room.getRoomId())) {
 
-                return "redirect:/";
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
 
             model.addAttribute("roomCode", roomCode);
             return "pages/payment";
         } catch (NoSuchElementException ex) {
-            return "redirect:/";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 }
