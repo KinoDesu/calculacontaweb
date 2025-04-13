@@ -31,6 +31,8 @@ public class OrderUseCaseImpl implements OrderUseCase {
             user.setTotalAmount(totalAmount);
             userDataProvider.updateTotalAmount(user.getUserId(), totalAmount);
         });
+
+        orderDataProvider.sendToClient(order);
     }
 
     @Override

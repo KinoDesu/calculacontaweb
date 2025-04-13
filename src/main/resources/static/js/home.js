@@ -8,6 +8,10 @@ function getOrderList() {
         .then(response => {
             console.log(response);
 
+            if (response.data.length > 0) {
+                payBtn.disabled = false;
+            }
+
             response.data.forEach(order => {
                 showOrder(order);
             });
@@ -113,4 +117,15 @@ roomCodeText.addEventListener("click", (e) => {
     }
 
     document.body.removeChild(tempTextArea);
+});
+
+const socket = new SockJS('/ws');
+const stompClient = Stomp.over(socket);
+
+stompClient.connect({}, () => {
+    stompClient.subscribe(`/topic/room/${roomCode}`, (message) => {
+        let order = JSON.parse(message.body);
+
+        showOrder(order);
+    });
 });

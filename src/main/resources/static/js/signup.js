@@ -13,6 +13,7 @@ const baseUrl = window.location.origin;
 const nameInput = document.getElementById("name_input");
 const roomCodeInput = document.getElementById("room_code_input");
 const signupBtn = document.getElementById("signup_btn");
+const userId = getCookie("userId");
 
 signupBtn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -105,3 +106,39 @@ function saveUserAndRoom() {
         });
 
 };
+
+function reconnectToRoom() {
+    if (!userId) {
+        return;
+    } else {
+
+        axios.get(`${baseUrl}/api/user/${userId}`)
+            .then(response => {
+                let user = response.data;
+                let reconnectRequest = confirm(`Olá, ${user.name}! Parece que você já está na sala ${user.room.code}\nDeseja reconectar?`)
+                if (reconnectRequest) {
+                    location.href = `${baseUrl}/room/${user.room.code}`;
+                } else {
+                    let confirmDeletion = confirm("Tem certeza que não quer reconectar?");
+
+                    if (confirmDeletion) {
+                        document.cookie = "userId=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                    }
+                    window.location.reload();
+                }
+            })
+
+    }
+}
+
+reconnectToRoom();
+
+
+function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [key, value] = cookie.trim().split('=');
+        if (key === name) return decodeURIComponent(value);
+    }
+    return null;
+}

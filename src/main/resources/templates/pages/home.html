@@ -10,6 +10,8 @@
         const roomCode = "[[${roomCode}]]";
     </script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
     <script src="../js/home.js" defer></script>
 </head>
 
@@ -27,7 +29,7 @@
         </section>
         <div class="btn_menu">
             <button class="default_btn" id="make_order_btn">FAZER PEDIDO</button>
-            <button class="default_btn" id="pay_btn">PAGAR</button>
+            <button class="default_btn" disabled id="pay_btn">PAGAR</button>
         </div>
     </main>
 

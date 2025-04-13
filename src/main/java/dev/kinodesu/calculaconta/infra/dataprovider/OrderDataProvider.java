@@ -7,4 +7,6 @@ import java.util.List;
 public interface OrderDataProvider {
     void saveNewOrder(Order order);
     List<Order> getAllOrdersByRoomCode(String roomCode);
+
+    void sendToClient(Order order);
 }

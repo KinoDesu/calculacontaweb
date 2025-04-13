@@ -5,6 +5,7 @@ import dev.kinodesu.calculaconta.infra.dataprovider.OrderDataProvider;
 import dev.kinodesu.calculaconta.infra.mapper.OrderDataMapper;
 import dev.kinodesu.calculaconta.infra.repository.OrderRepository;
 import dev.kinodesu.calculaconta.infra.repository.data.OrderData;
+import dev.kinodesu.calculaconta.infra.websocket.WebSocketProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ public class OrderDataProviderImpl implements OrderDataProvider {
 
     private final OrderDataMapper orderDataMapper;
     private final OrderRepository orderRepository;
+    private final WebSocketProvider webSocketProvider;
 
     @Override
     public void saveNewOrder(Order order) {
@@ -27,5 +29,10 @@ public class OrderDataProviderImpl implements OrderDataProvider {
     public List<Order> getAllOrdersByRoomCode(String roomCode) {
         List<OrderData> userDataList = orderRepository.findAllByRoomCode(roomCode);
         return orderDataMapper.toEntity(userDataList);
+    }
+
+    @Override
+    public void sendToClient(Order order) {
+        webSocketProvider.sendOrderToRoom(order.getRoom().getCode(), order);
     }
 }

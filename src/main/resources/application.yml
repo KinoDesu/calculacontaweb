@@ -44,7 +44,7 @@ management:
       enabled: true
 
 probe:
-  path: /calculaconta/actuator/health
+  path: /actuator/health
   port: http
   initialDelaySecondsLiveness: 120
   initialDelaySecondsReadness: 120

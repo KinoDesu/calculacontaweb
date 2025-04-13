@@ -102,9 +102,13 @@ main {
     border: none;
 }
 
-.default_btn:hover {
+.default_btn:hover:not(:disabled) {
     filter: brightness(0.8);
     cursor: pointer;
+}
+
+.default_btn:disabled {
+    opacity: .5;
 }
 
 .default_form_section {

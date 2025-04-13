@@ -61,7 +61,7 @@ cancelBtn.addEventListener("click", (e) => {
 });
 
 function getUserList() {
-    axios.get(`${baseUrl}/api/user/${roomCode}`)
+    axios.get(`${baseUrl}/api/user?roomCode=${roomCode}`)
         .then(response => {
             console.log(response);
 
