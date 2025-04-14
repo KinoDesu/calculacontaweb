@@ -7,6 +7,7 @@ import dev.kinodesu.calculaconta.infra.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 
@@ -27,5 +28,17 @@ public class WorkerDataProviderImpl implements WorkerDataProvider {
         userRepository.clearOldData(expirationDate);
         log.info("limpando room");
         roomRepository.clearOldData(expirationDate);
+    }
+
+    @Override
+    public void healthCheck() {
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            String url = "http://localhost:8080/actuator/health";
+            String response = restTemplate.getForObject(url, String.class);
+            log.info(response);
+        } catch (Exception e) {
+            log.error("Erro na chamada agendada: " + e);
+        }
     }
 }
