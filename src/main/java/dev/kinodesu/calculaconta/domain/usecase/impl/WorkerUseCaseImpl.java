@@ -21,7 +21,7 @@ public class WorkerUseCaseImpl implements WorkerUseCase {
             while (true) {
                 workerDataProvider.clearOldData(LocalDateTime.now().minusDays(2));
                 workerDataProvider.healthCheck();
-                Thread.sleep(Duration.ofMinutes(1).toMillis());
+                Thread.sleep(Duration.ofMinutes(10).toMillis());
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
