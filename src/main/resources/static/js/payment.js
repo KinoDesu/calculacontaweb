@@ -33,7 +33,12 @@ serviceInput.addEventListener("input", (e) => {
     Array.from(document.querySelectorAll(".user_amount"))
         .filter(e => e.innerText)
         .forEach(e => {
+            if (serviceInput.value < 0) {
+                serviceInput.value = 0;
+            }
+
             let serviceValue = serviceInput.value;
+
             axios.get(`${baseUrl}/api/billing/calculate/${e.id}?service=${serviceValue ? serviceValue : 0}`)
                 .then(response => {
                     e.innerText = response.data.toString().replace(".", ",");

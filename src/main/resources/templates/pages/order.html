@@ -32,12 +32,12 @@
                     <div class="default_input_div" id="price_input_div">
                         <label for="price_input" class="default_input_lbl">Valor:</label>
                         <input type="number" name="price_input" id="price_input" class="default_input" value="0.00"
-                            required min="0" step="0.01" pattern="^\d*(\.\d{0,2})?$">
+                            required min="0" max="99999" step="0.01" pattern="^\d*(\.\d{0,2})?$">
                     </div>
                     <div class="default_input_div" id="quantity_input_div">
                         <label for="quantity_input" class="default_input_lbl">Quantidade:</label>
                         <input type="number" name="quantity_input" id="quantity_input" class="default_input" required
-                            min="1" value="1">
+                            min="1" max="999" value="1">
                     </div>
                 </div>
 
