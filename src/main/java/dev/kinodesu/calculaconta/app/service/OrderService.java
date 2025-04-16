@@ -8,4 +8,6 @@ import java.util.List;
 public interface OrderService {
     void saveNewOrder(OrderRequestDTO order);
     List<Order> getAllOrdersByRoomCode(String roomCode);
+
+    void deleteOrder(String orderId);
 }

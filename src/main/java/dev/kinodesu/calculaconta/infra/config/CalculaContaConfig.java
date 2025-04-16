@@ -1,5 +1,9 @@
 package dev.kinodesu.calculaconta.infra.config;
 
+import dev.kinodesu.calculaconta.domain.OrderDataProvider;
+import dev.kinodesu.calculaconta.domain.RoomDataProvider;
+import dev.kinodesu.calculaconta.domain.UserDataProvider;
+import dev.kinodesu.calculaconta.domain.WorkerDataProvider;
 import dev.kinodesu.calculaconta.domain.command.BillingCommand;
 import dev.kinodesu.calculaconta.domain.command.RoomUserCommand;
 import dev.kinodesu.calculaconta.domain.command.impl.BillingCommandImpl;
@@ -14,10 +18,6 @@ import dev.kinodesu.calculaconta.domain.usecase.impl.OrderUseCaseImpl;
 import dev.kinodesu.calculaconta.domain.usecase.impl.RoomUseCaseImpl;
 import dev.kinodesu.calculaconta.domain.usecase.impl.UserUseCaseImpl;
 import dev.kinodesu.calculaconta.domain.usecase.impl.WorkerUseCaseImpl;
-import dev.kinodesu.calculaconta.infra.dataprovider.OrderDataProvider;
-import dev.kinodesu.calculaconta.infra.dataprovider.RoomDataProvider;
-import dev.kinodesu.calculaconta.infra.dataprovider.UserDataProvider;
-import dev.kinodesu.calculaconta.infra.dataprovider.WorkerDataProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

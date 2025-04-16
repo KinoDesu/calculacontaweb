@@ -1,7 +1,7 @@
 package dev.kinodesu.calculaconta.domain.usecase.impl;
 
+import dev.kinodesu.calculaconta.domain.WorkerDataProvider;
 import dev.kinodesu.calculaconta.domain.usecase.WorkerUseCase;
-import dev.kinodesu.calculaconta.infra.dataprovider.WorkerDataProvider;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

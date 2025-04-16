@@ -6,4 +6,6 @@ import org.springframework.http.ResponseEntity;
 public interface OrderController {
     ResponseEntity<Object> saveNewOrder(OrderRequestDTO order);
     ResponseEntity<Object> getAllOrdersByRoomCode(String roomCode);
+
+    ResponseEntity<Object> deleteOrder(String orderId);
 }

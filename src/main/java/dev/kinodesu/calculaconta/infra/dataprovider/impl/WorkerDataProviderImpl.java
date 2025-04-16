@@ -1,6 +1,6 @@
 package dev.kinodesu.calculaconta.infra.dataprovider.impl;
 
-import dev.kinodesu.calculaconta.infra.dataprovider.WorkerDataProvider;
+import dev.kinodesu.calculaconta.domain.WorkerDataProvider;
 import dev.kinodesu.calculaconta.infra.repository.OrderRepository;
 import dev.kinodesu.calculaconta.infra.repository.RoomRepository;
 import dev.kinodesu.calculaconta.infra.repository.UserRepository;

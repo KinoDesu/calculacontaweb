@@ -1,4 +1,4 @@
-package dev.kinodesu.calculaconta.infra.dataprovider;
+package dev.kinodesu.calculaconta.domain;
 
 import dev.kinodesu.calculaconta.domain.entity.Order;
 
@@ -8,5 +8,11 @@ public interface OrderDataProvider {
     void saveNewOrder(Order order);
     List<Order> getAllOrdersByRoomCode(String roomCode);
 
-    void sendToClient(Order order);
+    void deleteOrder(Order order);
+
+    void sendNewOrderToClient(Order order);
+
+    void sendOrderDeletionToClient(Order order);
+
+    Order getOrderbyId(String orderId);
 }

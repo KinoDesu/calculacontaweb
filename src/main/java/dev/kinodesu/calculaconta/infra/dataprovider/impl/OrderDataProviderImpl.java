@@ -1,7 +1,7 @@
 package dev.kinodesu.calculaconta.infra.dataprovider.impl;
 
+import dev.kinodesu.calculaconta.domain.OrderDataProvider;
 import dev.kinodesu.calculaconta.domain.entity.Order;
-import dev.kinodesu.calculaconta.infra.dataprovider.OrderDataProvider;
 import dev.kinodesu.calculaconta.infra.mapper.OrderDataMapper;
 import dev.kinodesu.calculaconta.infra.repository.OrderRepository;
 import dev.kinodesu.calculaconta.infra.repository.data.OrderData;
@@ -31,8 +31,24 @@ public class OrderDataProviderImpl implements OrderDataProvider {
         return orderDataMapper.toEntity(userDataList);
     }
 
+
     @Override
-    public void sendToClient(Order order) {
-        webSocketProvider.sendOrderToRoom(order.getRoom().getCode(), order);
+    public void deleteOrder(Order order) {
+        orderRepository.deleteById(order.getOrderId());
+    }
+
+    @Override
+    public void sendNewOrderToClient(Order order) {
+        webSocketProvider.sendNewOrderToRoom(order.getRoom().getCode(), order);
+    }
+
+    @Override
+    public void sendOrderDeletionToClient(Order order) {
+        webSocketProvider.sendOrderDeletionToClient(order.getRoom().getCode(), order.getOrderId());
+    }
+
+    @Override
+    public Order getOrderbyId(String orderId) {
+        return orderDataMapper.toEntity(orderRepository.findById(orderId).orElseThrow());
     }
 }

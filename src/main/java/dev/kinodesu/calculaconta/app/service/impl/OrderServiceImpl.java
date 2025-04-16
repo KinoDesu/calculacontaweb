@@ -46,4 +46,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getAllOrdersByRoomCode(String roomCode) {
         return orderUseCase.getAllOrdersByRoomCode(roomCode);
     }
+
+    @Override
+    public void deleteOrder(String orderId) {
+        orderUseCase.deleteOrder(orderId);
+    }
 }

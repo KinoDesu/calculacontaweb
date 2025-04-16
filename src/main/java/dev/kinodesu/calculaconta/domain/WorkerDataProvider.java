@@ -1,4 +1,4 @@
-package dev.kinodesu.calculaconta.infra.dataprovider;
+package dev.kinodesu.calculaconta.domain;
 
 import java.time.LocalDateTime;
 

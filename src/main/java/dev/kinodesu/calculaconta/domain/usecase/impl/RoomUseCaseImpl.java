@@ -1,8 +1,8 @@
 package dev.kinodesu.calculaconta.domain.usecase.impl;
 
+import dev.kinodesu.calculaconta.domain.RoomDataProvider;
 import dev.kinodesu.calculaconta.domain.entity.Room;
 import dev.kinodesu.calculaconta.domain.usecase.RoomUseCase;
-import dev.kinodesu.calculaconta.infra.dataprovider.RoomDataProvider;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class RoomUseCaseImpl implements RoomUseCase {

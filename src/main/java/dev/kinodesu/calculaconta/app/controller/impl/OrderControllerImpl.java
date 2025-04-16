@@ -6,6 +6,7 @@ import dev.kinodesu.calculaconta.app.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,5 +35,14 @@ public class OrderControllerImpl implements OrderController {
     @GetMapping("/{roomCode}")
     public ResponseEntity<Object> getAllOrdersByRoomCode(@PathVariable String roomCode) {
         return ResponseEntity.ok(orderService.getAllOrdersByRoomCode(roomCode));
+    }
+
+    @Override
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<Object> deleteOrder(@PathVariable String orderId) {
+
+        orderService.deleteOrder(orderId);
+
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,10 +1,10 @@
 package dev.kinodesu.calculaconta.domain.usecase.impl;
 
+import dev.kinodesu.calculaconta.domain.UserDataProvider;
 import dev.kinodesu.calculaconta.domain.command.RoomUserCommand;
 import dev.kinodesu.calculaconta.domain.entity.Room;
 import dev.kinodesu.calculaconta.domain.entity.User;
 import dev.kinodesu.calculaconta.domain.usecase.UserUseCase;
-import dev.kinodesu.calculaconta.infra.dataprovider.UserDataProvider;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;

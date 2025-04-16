@@ -1,7 +1,7 @@
 package dev.kinodesu.calculaconta.infra.dataprovider.impl;
 
+import dev.kinodesu.calculaconta.domain.RoomDataProvider;
 import dev.kinodesu.calculaconta.domain.entity.Room;
-import dev.kinodesu.calculaconta.infra.dataprovider.RoomDataProvider;
 import dev.kinodesu.calculaconta.infra.mapper.RoomDataMapper;
 import dev.kinodesu.calculaconta.infra.repository.RoomRepository;
 import dev.kinodesu.calculaconta.infra.repository.data.RoomData;

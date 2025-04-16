@@ -1,7 +1,7 @@
 package dev.kinodesu.calculaconta.infra.dataprovider.impl;
 
+import dev.kinodesu.calculaconta.domain.UserDataProvider;
 import dev.kinodesu.calculaconta.domain.entity.User;
-import dev.kinodesu.calculaconta.infra.dataprovider.UserDataProvider;
 import dev.kinodesu.calculaconta.infra.mapper.UserDataMapper;
 import dev.kinodesu.calculaconta.infra.repository.UserRepository;
 import dev.kinodesu.calculaconta.infra.repository.data.UserData;

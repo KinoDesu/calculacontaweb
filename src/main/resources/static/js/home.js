@@ -28,6 +28,7 @@ function showOrder(order) {
 
     let orderDetail = document.createElement("details");
     orderDetail.setAttribute("class", "order_details");
+    orderDetail.setAttribute("id", `detail_${order.orderId}`);
     let orderSummary = document.createElement("summary");
     let orderName = document.createElement("h3");
     orderName.setAttribute("class", "secondary_text order_name");
@@ -82,6 +83,24 @@ function showOrder(order) {
     buttonMenu.appendChild(deleteButton);
 
     orderSection.appendChild(orderDetail);
+
+    deleteButton.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        axios.delete(`${baseUrl}/api/order/${order.orderId}`)
+            .then(() => alert("Pedido removido com sucesso!"))
+            .catch(() => alert("Falha ao remover pedido..."));
+    });
+
+    editButton.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        alert("Em desenvolvimento!");
+    });
+}
+
+function removeOrder(orderId) {
+    document.getElementById(`detail_${orderId}`).remove();
 }
 
 const orderBtn = document.getElementById("make_order_btn");
@@ -123,9 +142,15 @@ const socket = new SockJS('/ws');
 const stompClient = Stomp.over(socket);
 
 stompClient.connect({}, () => {
-    stompClient.subscribe(`/topic/room/${roomCode}`, (message) => {
+    stompClient.subscribe(`/topic/add/room/${roomCode}`, (message) => {
         let order = JSON.parse(message.body);
 
         showOrder(order);
+    });
+});
+
+stompClient.connect({}, () => {
+    stompClient.subscribe(`/topic/remove/room/${roomCode}`, (message) => {
+        removeOrder(message.body);
     });
 });
