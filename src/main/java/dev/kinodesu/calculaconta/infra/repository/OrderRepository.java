@@ -14,11 +14,16 @@ import java.util.UUID;
 @Repository
 public interface OrderRepository extends JpaRepository<OrderData, UUID> {
 
-    @Query("SELECT o FROM order o WHERE o.tableData.code = :tableCode")
-    List<OrderData> findAllByTableCode(String tableCode);
+    @Query("SELECT o FROM order o WHERE o.tableData.tableId = :tableId")
+    List<OrderData> findAllByTableId(UUID tableId);
 
     @Modifying
     @Transactional
     @Query("DELETE FROM order o WHERE o.createdDate <= :expirationDate")
     void clearOldData(LocalDateTime expirationDate);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM order o WHERE o.tableData.tableId = :tableId")
+    void deleteAllByTableId(UUID tableId);
 }

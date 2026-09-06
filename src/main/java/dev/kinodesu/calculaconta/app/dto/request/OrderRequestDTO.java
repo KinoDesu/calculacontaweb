@@ -15,6 +15,7 @@ import java.util.UUID;
 @Setter
 @Builder
 public class OrderRequestDTO {
+    private UUID orderId;
     private String name;
     private double unitPrice;
     private int quantity;

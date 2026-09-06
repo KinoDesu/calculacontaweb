@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -54,8 +53,8 @@ public class ClientControllerImpl implements ClientController {
     }
 
     @Override
-    @GetMapping(params = {"roomCode"})
-    public ResponseEntity<Object> getAllClientsByTableId(@RequestParam UUID tableId) {
+    @GetMapping("/list/table/{tableId}")
+    public ResponseEntity<Object> getAllClientsByTableId(@PathVariable UUID tableId) {
         return ResponseEntity.ok(clientService.getAllClientsByTableId(tableId));
     }
 }

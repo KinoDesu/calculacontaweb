@@ -13,12 +13,14 @@ public interface ClientDataMapper {
 
     @Mapping(source = "clientId", target = "clientId")
     @Mapping(source = "tableData.tableId", target = "tableId")
+    @Mapping(source = "bot", target = "isBot")
     Client toEntity(ClientData clientData);
 
     List<Client> toEntity(List<ClientData> clientData);
 
     @Mapping(source = "clientId", target = "clientId")
     @Mapping(source = "tableId", target = "tableData.tableId")
+    @Mapping(source = "bot", target = "isBot")
     ClientData toData(Client client);
 
     List<ClientData> toData(List<Client> client);

@@ -1,13 +1,13 @@
-package dev.kinodesu.calculaconta.app.service;
+package dev.kinodesu.calculaconta.domain.usecase;
 
-import dev.kinodesu.calculaconta.app.dto.request.OrderRequestDTO;
 import dev.kinodesu.calculaconta.domain.entity.Order;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface OrderService {
-    Order saveOrder(OrderRequestDTO orderRequestDTO);
+public interface OrderUseCase {
+
+    Order saveOrder(Order order);
 
     List<Order> listTableOrders(UUID tableId);
 

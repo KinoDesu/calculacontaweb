@@ -7,6 +7,9 @@ import dev.kinodesu.calculaconta.domain.entity.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,17 +42,22 @@ public class OrderControllerImpl implements OrderController {
     }
 
     @Override
-    public ResponseEntity<Object> listTableOrders(UUID tableId) {
+    @GetMapping("/{tableId}")
+    public ResponseEntity<Object> listTableOrders(@PathVariable UUID tableId) {
         return ResponseEntity.ok(orderService.listTableOrders(tableId));
     }
 
     @Override
-    public ResponseEntity<Object> deleteOrder(UUID orderId) {
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<Object> deleteOrder(@PathVariable UUID orderId) {
+        orderService.deleteOrder(orderId);
         return ResponseEntity.noContent().build();
     }
 
     @Override
-    public ResponseEntity<Object> clearTableOrders(UUID tableId) {
+    @DeleteMapping("/clear/{tableId}")
+    public ResponseEntity<Object> clearTableOrders(@PathVariable UUID tableId) {
+        orderService.clearTableOrders(tableId);
         return ResponseEntity.noContent().build();
     }
 }

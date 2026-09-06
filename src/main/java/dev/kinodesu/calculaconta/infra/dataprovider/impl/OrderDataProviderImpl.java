@@ -21,35 +21,49 @@ public class OrderDataProviderImpl implements OrderDataProvider {
     private final WebSocketProvider webSocketProvider;
 
     @Override
-    public void saveNewOrder(Order order) {
+    public Order saveOrder(Order order) {
+
+        if(order.getOrderId()!=null){
+            OrderData existingOrder = orderRepository.findById(order.getOrderId()).orElseThrow();
+            orderDataMapper.updateDate(order, existingOrder);
+
+            return orderDataMapper.toEntity(orderRepository.save(existingOrder));
+        }
+
         OrderData orderData = orderDataMapper.toData(order);
-        orderRepository.save(orderData);
+        orderData.setOrderId(UUID.randomUUID());
+        return orderDataMapper.toEntity(orderRepository.save(orderData));
     }
 
     @Override
-    public List<Order> getAllOrdersByRoomCode(String roomCode) {
-        List<OrderData> userDataList = orderRepository.findAllByTableCode(roomCode);
+    public List<Order> getAllOrdersByTableId(UUID tableId) {
+        List<OrderData> userDataList = orderRepository.findAllByTableId(tableId);
         return orderDataMapper.toEntity(userDataList);
     }
 
 
     @Override
-    public void deleteOrder(Order order) {
-        orderRepository.deleteById(order.getOrderId());
+    public void deleteOrder(UUID orderId) {
+        orderRepository.deleteById(orderId);
     }
 
     @Override
     public void sendNewOrderToClient(Order order) {
-        webSocketProvider.sendNewOrderToRoom(order.getTable().getCode(), order);
+        webSocketProvider.sendNewOrderToTable(order.getTableId(), order);
     }
 
     @Override
     public void sendOrderDeletionToClient(Order order) {
-        webSocketProvider.sendOrderDeletionToClient(order.getTable().getCode(), order.getOrderId());
+        webSocketProvider.sendOrderDeletionToClient(order.getTableId(), order.getOrderId());
     }
 
     @Override
     public Order getOrderbyId(UUID orderId) {
         return orderDataMapper.toEntity(orderRepository.findById(orderId).orElseThrow());
+    }
+
+    @Override
+    public void deleteAllOrderByTableId(UUID tableId) {
+        orderRepository.deleteAllByTableId(tableId);
     }
 }

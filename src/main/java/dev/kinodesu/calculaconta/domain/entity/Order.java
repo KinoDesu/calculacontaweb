@@ -20,7 +20,7 @@ public class Order {
     private double unitPrice;
     private int quantity;
     private double totalPrice;
-    private Table table;
-    private List<Client> clientList;
+    private UUID tableId;
     private double pricePerPerson;
+    private List<Client> clientList;
 }

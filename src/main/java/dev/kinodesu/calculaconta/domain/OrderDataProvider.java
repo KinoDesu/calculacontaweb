@@ -6,14 +6,17 @@ import java.util.List;
 import java.util.UUID;
 
 public interface OrderDataProvider {
-    void saveNewOrder(Order order);
-    List<Order> getAllOrdersByRoomCode(String roomCode);
+    Order saveOrder(Order order);
 
-    void deleteOrder(Order order);
+    List<Order> getAllOrdersByTableId(UUID tableId);
+
+    void deleteOrder(UUID orderId);
 
     void sendNewOrderToClient(Order order);
 
     void sendOrderDeletionToClient(Order order);
 
     Order getOrderbyId(UUID orderId);
+
+    void deleteAllOrderByTableId(UUID tableId);
 }

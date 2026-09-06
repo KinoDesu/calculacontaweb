@@ -15,12 +15,12 @@ public class WebSocketProviderImpl implements WebSocketProvider {
     private final SimpMessagingTemplate messagingTemplate;
 
     @Override
-    public void sendNewOrderToRoom(String roomCode, Order order) {
-        messagingTemplate.convertAndSend("/topic/add/room/" + order.getTable().getCode(), order);
+    public void sendNewOrderToTable(UUID tableId, Order order) {
+        messagingTemplate.convertAndSend("/topic/add/room/" + tableId, order);
     }
 
     @Override
-    public void sendOrderDeletionToClient(String roomCode, UUID orderId) {
-        messagingTemplate.convertAndSend("/topic/remove/room/" + roomCode, orderId);
+    public void sendOrderDeletionToClient(UUID tableId, UUID orderId) {
+        messagingTemplate.convertAndSend("/topic/remove/room/" + tableId, orderId);
     }
 }
