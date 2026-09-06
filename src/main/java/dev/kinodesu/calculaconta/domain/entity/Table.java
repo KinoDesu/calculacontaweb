@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -14,13 +13,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Order {
-    private UUID orderId;
+public class Table {
+    private UUID tableId;
     private String name;
-    private double unitPrice;
-    private int quantity;
-    private double totalPrice;
-    private Table table;
-    private List<Client> clientList;
-    private double pricePerPerson;
+    private String code;
+    private byte[] qrCode;
+    private int clientQuantity;
 }

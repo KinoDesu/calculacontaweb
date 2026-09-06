@@ -3,9 +3,16 @@ package dev.kinodesu.calculaconta.app.controller;
 import dev.kinodesu.calculaconta.app.dto.request.OrderRequestDTO;
 import org.springframework.http.ResponseEntity;
 
-public interface OrderController {
-    ResponseEntity<Object> saveNewOrder(OrderRequestDTO order);
-    ResponseEntity<Object> getAllOrdersByRoomCode(String roomCode);
+import java.util.UUID;
 
-    ResponseEntity<Object> deleteOrder(String orderId);
+public interface OrderController {
+
+    ResponseEntity<Object> saveOrder(OrderRequestDTO orderRequestDTO);
+
+    ResponseEntity<Object> listTableOrders(UUID tableId);
+
+    ResponseEntity<Object> deleteOrder(UUID orderId);
+
+    ResponseEntity<Object> clearTableOrders(UUID tableId);
+
 }

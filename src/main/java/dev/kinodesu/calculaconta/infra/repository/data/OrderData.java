@@ -14,9 +14,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.sql.Types;
 import java.util.List;
+import java.util.UUID;
 
 @Table(name = "tb_order")
 @Entity(name = "order")
@@ -29,34 +32,34 @@ import java.util.List;
 public class OrderData extends AuditBaseData {
 
     @Id
-    @UuidGenerator
-    @Column(name = "id")
-    private String orderId;
+    @JdbcTypeCode(Types.VARCHAR)
+    @Column(name = "order_id", nullable = false, unique = true, length = 36)
+    private UUID orderId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "order_item_name", nullable = false)
+    private String itemName;
 
-    @Column(name = "unitPrice")
+    @Column(name = "order_unit_price", nullable = false)
     private double unitPrice;
 
-    @Column(name = "quantity")
-    private int quantity;
-
-    @Column(name = "totalPrice")
+    @Column(name = "order_total_price", nullable = false)
     private double totalPrice;
 
+    @Column(name = "order_item_qtd", nullable = false)
+    private int itemQuantity;
+
+    @Column(name = "order_person_price", nullable = false)
+    private double personPrice;
+
     @ManyToOne
-    @JoinColumn(name = "room_id", nullable = false)
-    private RoomData room;
+    @JoinColumn(name = "fk_table_id", nullable = false)
+    private TableData tableData;
 
     @ManyToMany
     @JoinTable(
-            name = "order_user",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
+            name = "tb_order_client",
+            joinColumns = @JoinColumn(name = "fk_order_id"),
+            inverseJoinColumns = @JoinColumn(name = "fk_client_id")
     )
-    private List<UserData> userList;
-
-    @Column(name = "pricePerPerson")
-    private double pricePerPerson;
+    private List<ClientData> clientDataList;
 }

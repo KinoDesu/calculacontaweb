@@ -1,22 +1,16 @@
 package dev.kinodesu.calculaconta.infra.config;
 
 import dev.kinodesu.calculaconta.domain.OrderDataProvider;
-import dev.kinodesu.calculaconta.domain.RoomDataProvider;
-import dev.kinodesu.calculaconta.domain.UserDataProvider;
+import dev.kinodesu.calculaconta.domain.TableDataProvider;
+import dev.kinodesu.calculaconta.domain.ClientDataProvider;
 import dev.kinodesu.calculaconta.domain.WorkerDataProvider;
-import dev.kinodesu.calculaconta.domain.command.BillingCommand;
-import dev.kinodesu.calculaconta.domain.command.RoomUserCommand;
-import dev.kinodesu.calculaconta.domain.command.impl.BillingCommandImpl;
-import dev.kinodesu.calculaconta.domain.command.impl.RoomUserCommandImpl;
-import dev.kinodesu.calculaconta.domain.usecase.BillingUseCase;
-import dev.kinodesu.calculaconta.domain.usecase.OrderUseCase;
-import dev.kinodesu.calculaconta.domain.usecase.RoomUseCase;
-import dev.kinodesu.calculaconta.domain.usecase.UserUseCase;
+import dev.kinodesu.calculaconta.domain.command.TableClientCommand;
+import dev.kinodesu.calculaconta.domain.command.impl.TableClientCommandImpl;
+import dev.kinodesu.calculaconta.domain.usecase.TableUseCase;
+import dev.kinodesu.calculaconta.domain.usecase.ClientUseCase;
 import dev.kinodesu.calculaconta.domain.usecase.WorkerUseCase;
-import dev.kinodesu.calculaconta.domain.usecase.impl.BillingUseCaseImpl;
-import dev.kinodesu.calculaconta.domain.usecase.impl.OrderUseCaseImpl;
-import dev.kinodesu.calculaconta.domain.usecase.impl.RoomUseCaseImpl;
-import dev.kinodesu.calculaconta.domain.usecase.impl.UserUseCaseImpl;
+import dev.kinodesu.calculaconta.domain.usecase.impl.TableUseCaseImpl;
+import dev.kinodesu.calculaconta.domain.usecase.impl.ClientUseCaseImpl;
 import dev.kinodesu.calculaconta.domain.usecase.impl.WorkerUseCaseImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,18 +19,13 @@ import org.springframework.context.annotation.Configuration;
 public class CalculaContaConfig {
 
     @Bean
-    public UserUseCase userUseCase(UserDataProvider userDataProvider, RoomUserCommand roomUserCommand) {
-        return new UserUseCaseImpl(userDataProvider, roomUserCommand);
+    public ClientUseCase userUseCase(ClientDataProvider clientDataProvider) {
+        return new ClientUseCaseImpl(clientDataProvider);
     }
 
     @Bean
-    public OrderUseCase orderUseCase(OrderDataProvider orderDataProvider, UserDataProvider userDataProvider) {
-        return new OrderUseCaseImpl(orderDataProvider, userDataProvider);
-    }
-
-    @Bean
-    public RoomUseCase roomUseCase(RoomDataProvider roomDataProvider) {
-        return new RoomUseCaseImpl(roomDataProvider);
+    public TableUseCase roomUseCase(TableDataProvider tableDataProvider) {
+        return new TableUseCaseImpl(tableDataProvider);
     }
 
     @Bean
@@ -45,17 +34,7 @@ public class CalculaContaConfig {
     }
 
     @Bean
-    public RoomUserCommand roomUserCommand(RoomUseCase roomUseCase) {
-        return new RoomUserCommandImpl(roomUseCase);
-    }
-
-    @Bean
-    public BillingUseCase billingUseCase(BillingCommand billingCommand) {
-        return new BillingUseCaseImpl(billingCommand);
-    }
-
-    @Bean
-    public BillingCommand billingCommand(UserUseCase userUseCase) {
-        return new BillingCommandImpl(userUseCase);
+    public TableClientCommand roomUserCommand(TableUseCase tableUseCase) {
+        return new TableClientCommandImpl(tableUseCase);
     }
 }

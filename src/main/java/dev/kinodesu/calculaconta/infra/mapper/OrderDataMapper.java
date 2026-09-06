@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = UserDataMapper.class)
+@Mapper(componentModel = "spring", uses = ClientDataMapper.class)
 public interface OrderDataMapper {
 
     @Mapping(source = "orderId",

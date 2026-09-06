@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -14,10 +13,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-public class OrderRequestDTO {
-    private String name;
-    private double unitPrice;
-    private int quantity;
+public class TableRequestDTO {
     private UUID tableId;
-    private List<UUID> clientList;
+    private String tableName;
+    private int clientQuantity;
+    private String redirectUrl;
 }

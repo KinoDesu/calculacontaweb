@@ -3,6 +3,7 @@ package dev.kinodesu.calculaconta.domain;
 import dev.kinodesu.calculaconta.domain.entity.Order;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface OrderDataProvider {
     void saveNewOrder(Order order);
@@ -14,5 +15,5 @@ public interface OrderDataProvider {
 
     void sendOrderDeletionToClient(Order order);
 
-    Order getOrderbyId(String orderId);
+    Order getOrderbyId(UUID orderId);
 }

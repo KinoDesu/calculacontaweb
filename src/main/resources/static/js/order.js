@@ -100,3 +100,17 @@ function showUser(user, index) {
 }
 
 getUserList();
+
+if (editOrderId) {
+    orderBtn.innerText = "ATUALIZAR PEDIDO";
+    axios.get(`${baseUrl}/api/order/${editOrderId}`)
+        .then(response => {
+            console.log(response);
+
+            
+        })
+        .catch(error => {
+            console.error(error);
+        })
+
+}

@@ -4,7 +4,7 @@ const roomCodeText = document.getElementById("room_code");
 const baseUrl = window.location.origin;
 
 function getOrderList() {
-    axios.get(`${baseUrl}/api/order/${roomCode}`)
+    axios.get(`${baseUrl}/api/order/list/${roomCode}`)
         .then(response => {
             console.log(response);
 
@@ -95,7 +95,8 @@ function showOrder(order) {
     editButton.addEventListener("click", (e) => {
         e.preventDefault();
 
-        alert("Em desenvolvimento!");
+        location.href = `${baseUrl}/${roomCode}/edit?orderId=${order.orderId}`;
+        // alert("Em desenvolvimento!");
     });
 }
 

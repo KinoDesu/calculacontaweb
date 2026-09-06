@@ -3,11 +3,14 @@ package dev.kinodesu.calculaconta.app.service;
 import dev.kinodesu.calculaconta.app.dto.request.OrderRequestDTO;
 import dev.kinodesu.calculaconta.domain.entity.Order;
 
-import java.util.List;
+import java.util.UUID;
 
 public interface OrderService {
-    void saveNewOrder(OrderRequestDTO order);
-    List<Order> getAllOrdersByRoomCode(String roomCode);
+    Order saveOrder(OrderRequestDTO orderRequestDTO);
 
-    void deleteOrder(String orderId);
+    Order listTableOrders(UUID tableId);
+
+    Order deleteOrder(UUID orderId);
+
+    Order clearTableOrders(UUID tableId);
 }

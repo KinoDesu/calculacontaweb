@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class OrderDataProviderImpl implements OrderDataProvider {
 
     @Override
     public List<Order> getAllOrdersByRoomCode(String roomCode) {
-        List<OrderData> userDataList = orderRepository.findAllByRoomCode(roomCode);
+        List<OrderData> userDataList = orderRepository.findAllByTableCode(roomCode);
         return orderDataMapper.toEntity(userDataList);
     }
 
@@ -39,16 +40,16 @@ public class OrderDataProviderImpl implements OrderDataProvider {
 
     @Override
     public void sendNewOrderToClient(Order order) {
-        webSocketProvider.sendNewOrderToRoom(order.getRoom().getCode(), order);
+        webSocketProvider.sendNewOrderToRoom(order.getTable().getCode(), order);
     }
 
     @Override
     public void sendOrderDeletionToClient(Order order) {
-        webSocketProvider.sendOrderDeletionToClient(order.getRoom().getCode(), order.getOrderId());
+        webSocketProvider.sendOrderDeletionToClient(order.getTable().getCode(), order.getOrderId());
     }
 
     @Override
-    public Order getOrderbyId(String orderId) {
+    public Order getOrderbyId(UUID orderId) {
         return orderDataMapper.toEntity(orderRepository.findById(orderId).orElseThrow());
     }
 }
