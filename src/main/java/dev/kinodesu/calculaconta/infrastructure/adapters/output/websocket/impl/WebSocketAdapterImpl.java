@@ -1,7 +1,7 @@
 package dev.kinodesu.calculaconta.infrastructure.adapters.output.websocket.impl;
 
-import dev.kinodesu.calculaconta.domain.model.Order;
 import dev.kinodesu.calculaconta.application.ports.output.WebSocketOutputPort;
+import dev.kinodesu.calculaconta.domain.model.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;

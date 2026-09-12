@@ -49,3 +49,7 @@ probe:
   initialDelaySecondsLiveness: 120
   initialDelaySecondsReadness: 120
 
+app:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:*}
+

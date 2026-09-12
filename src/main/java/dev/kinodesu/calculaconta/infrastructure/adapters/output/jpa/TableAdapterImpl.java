@@ -5,12 +5,12 @@ import com.google.zxing.client.j2se.MatrixToImageConfig;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import dev.kinodesu.calculaconta.application.ports.output.TableOutputPort;
 import dev.kinodesu.calculaconta.domain.model.Table;
+import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.data.TableData;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.mapper.TableDataMapper;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.repository.OrderRepository;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.repository.TableRepository;
-import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.data.TableData;
-import dev.kinodesu.calculaconta.application.ports.output.TableOutputPort;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -35,7 +35,7 @@ public class TableAdapterImpl implements TableOutputPort {
 
     @Override
     public Table createOrUpdateTable(Table table, URI redirectUrl) {
-        if(table.getTableId()!=null){
+        if (table.getTableId() != null) {
             TableData existingTable = tableRepository.findById(table.getTableId()).orElseThrow();
             tableDataMapper.updateDate(table, existingTable);
 
@@ -58,7 +58,12 @@ public class TableAdapterImpl implements TableOutputPort {
 
     @Override
     public Table getTableById(UUID tableId) {
-        return tableDataMapper.toEntity(tableRepository.findById(tableId).orElseThrow(()-> new EntityNotFoundException(String.format("Mesa %s não encontrada", tableId))));
+        return tableDataMapper.toEntity(tableRepository.findById(tableId).orElseThrow(() -> new EntityNotFoundException(String.format("Mesa %s não encontrada", tableId))));
+    }
+
+    @Override
+    public Table getTableByCode(String tableCode) {
+        return tableDataMapper.toEntity(tableRepository.findByCode(tableCode).orElseThrow(() -> new EntityNotFoundException(String.format("Mesa %s não encontrada", tableCode))));
     }
 
     private byte[] generateQrCode(String redirectUrl) {

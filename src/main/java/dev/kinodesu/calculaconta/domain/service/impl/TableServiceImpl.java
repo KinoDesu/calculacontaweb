@@ -14,4 +14,11 @@ public class TableServiceImpl implements TableService {
             throw new InvalidValueException("Valor inválido para quantidade de clientes na mesa");
         }
     }
+
+    @Override
+    public void validadeTableCode(String tableCode) {
+        if (tableCode == null || tableCode.isBlank()) {
+            throw new InvalidValueException("Código de mesa inválido");
+        }
+    }
 }

@@ -1,8 +1,8 @@
 package dev.kinodesu.calculaconta.infrastructure.adapters.input.rest.billcalculator.v1;
 
 import dev.kinodesu.calculaconta.api.ClientApiDelegate;
-import dev.kinodesu.calculaconta.domain.entity.ClientResponseDTO;
 import dev.kinodesu.calculaconta.application.usecases.ClientUseCase;
+import dev.kinodesu.calculaconta.domain.entity.ClientResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +20,6 @@ public class ClientDelegateImpl implements ClientApiDelegate {
 
     @Override
     public CompletableFuture<ResponseEntity<ClientResponseDTO>> getClientById(UUID clientId) {
-        return CompletableFuture.supplyAsync(()-> ResponseEntity.ok(clientUseCase.getClientById(clientId)));
+        return CompletableFuture.supplyAsync(() -> ResponseEntity.ok(clientUseCase.getClientById(clientId)));
     }
 }

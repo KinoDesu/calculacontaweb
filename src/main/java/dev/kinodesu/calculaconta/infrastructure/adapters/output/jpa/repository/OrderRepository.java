@@ -15,11 +15,11 @@ import java.util.UUID;
 public interface OrderRepository extends JpaRepository<OrderData, UUID> {
 
     @Query("""
-    SELECT o
-    FROM order o
-    JOIN FETCH o.clientOrderDataList
-    WHERE o.tableData.tableId = :tableId
-""")
+                SELECT o
+                FROM order o
+                JOIN FETCH o.clientOrderDataList
+                WHERE o.tableData.tableId = :tableId
+            """)
     List<OrderData> findAllByTableId(UUID tableId);
 
     @Modifying

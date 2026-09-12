@@ -1,7 +1,7 @@
 package dev.kinodesu.calculaconta.application.ports.input.mapper;
 
-import dev.kinodesu.calculaconta.domain.model.ClientOrder;
 import dev.kinodesu.calculaconta.domain.entity.ClientOrderResponseDTO;
+import dev.kinodesu.calculaconta.domain.model.ClientOrder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

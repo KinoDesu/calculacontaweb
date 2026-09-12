@@ -1,7 +1,7 @@
 package dev.kinodesu.calculaconta.application.ports.input.mapper;
 
-import dev.kinodesu.calculaconta.domain.model.Table;
 import dev.kinodesu.calculaconta.domain.entity.TableQrCodeResponseDTO;
+import dev.kinodesu.calculaconta.domain.model.Table;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

@@ -1,14 +1,14 @@
 package dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa;
 
+import dev.kinodesu.calculaconta.application.ports.output.OrderOutputPort;
 import dev.kinodesu.calculaconta.domain.model.Order;
-import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.mapper.OrderDataMapper;
-import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.repository.ClientRepository;
-import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.repository.OrderRepository;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.data.ClientData;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.data.ClientOrderData;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.data.OrderClientId;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.data.OrderData;
-import dev.kinodesu.calculaconta.application.ports.output.OrderOutputPort;
+import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.mapper.OrderDataMapper;
+import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.repository.ClientRepository;
+import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -38,7 +38,7 @@ public class OrderAdapterImpl implements OrderOutputPort {
 
     @Override
     public Order createOrUpdateTableOrder(Order order) {
-        if(order.getOrderId()!=null){
+        if (order.getOrderId() != null) {
             OrderData existingOrder = orderRepository.findById(order.getOrderId()).orElseThrow();
             orderDataMapper.updateData(order, existingOrder);
 

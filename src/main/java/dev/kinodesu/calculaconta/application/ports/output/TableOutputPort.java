@@ -11,4 +11,6 @@ public interface TableOutputPort {
     Table createOrUpdateTable(Table table, URI redirectUrl);
 
     Table getTableById(UUID tableId);
+
+    Table getTableByCode(String tableCode);
 }

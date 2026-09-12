@@ -115,6 +115,45 @@ paths:
         "504":
           $ref: "#/components/responses/GatewayTimeout"
 
+  /table/code/{tableCode}:
+    get:
+      tags:
+        - table
+      operationId: getTableByCode
+      description: Retrieves a table by its unique code.
+      parameters:
+        - $ref: "#/components/parameters/tableCode"
+
+      responses:
+        "200":
+          description: Table successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableResponseDTO"
+              examples:
+                default:
+                  summary: Table response
+                  value:
+                    tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
+                    name: "Table 01"
+                    code: "ABC123"
+                    clientQuantity: 4
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
 
   /table/{tableId}/qrCode:
     get:
@@ -551,6 +590,15 @@ components:
         examples:
           - "215e2053-b371-4d57-92bc-2f5e8214debf"
 
+    tableCode:
+      name: tableCode
+      in: path
+      required: true
+      description: Unique code of the table.
+      schema:
+        type: string
+        examples:
+          - "HxkTT"
 
     OrderId:
       name: orderId

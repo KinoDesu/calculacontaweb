@@ -1,10 +1,10 @@
 package dev.kinodesu.calculaconta.application.ports.input;
 
-import dev.kinodesu.calculaconta.domain.entity.ClientRequestDTO;
-import dev.kinodesu.calculaconta.domain.entity.ClientResponseDTO;
 import dev.kinodesu.calculaconta.application.ports.input.mapper.ClientMapper;
 import dev.kinodesu.calculaconta.application.ports.output.ClientOutputPort;
 import dev.kinodesu.calculaconta.application.usecases.ClientUseCase;
+import dev.kinodesu.calculaconta.domain.entity.ClientRequestDTO;
+import dev.kinodesu.calculaconta.domain.entity.ClientResponseDTO;
 import dev.kinodesu.calculaconta.domain.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

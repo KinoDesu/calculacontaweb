@@ -14,4 +14,6 @@ public interface TableUseCase {
     TableResponseDTO getTableById(UUID tableId);
 
     TableQrCodeResponseDTO getTableQrCode(UUID tableId);
+
+    TableResponseDTO getTableByCode(String tableCode);
 }

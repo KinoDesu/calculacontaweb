@@ -1,8 +1,8 @@
 package dev.kinodesu.calculaconta.infrastructure.adapters.input.rest.billcalculator.v1;
 
 import dev.kinodesu.calculaconta.api.OrderApiDelegate;
-import dev.kinodesu.calculaconta.domain.entity.OrderResponseDTO;
 import dev.kinodesu.calculaconta.application.usecases.OrderUseCase;
+import dev.kinodesu.calculaconta.domain.entity.OrderResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class OrderDelegateImpl implements OrderApiDelegate {
 
     @Override
     public CompletableFuture<ResponseEntity<Void>> deleteOrder(UUID orderId) {
-        return CompletableFuture.supplyAsync(()->
+        return CompletableFuture.supplyAsync(() ->
         {
             orderUseCase.deleteOrder(orderId);
             return ResponseEntity.noContent().build();
@@ -29,6 +29,6 @@ public class OrderDelegateImpl implements OrderApiDelegate {
 
     @Override
     public CompletableFuture<ResponseEntity<OrderResponseDTO>> getOrderById(UUID orderId) {
-        return CompletableFuture.supplyAsync(()-> ResponseEntity.ok(orderUseCase.getOrderById(orderId)));
+        return CompletableFuture.supplyAsync(() -> ResponseEntity.ok(orderUseCase.getOrderById(orderId)));
     }
 }

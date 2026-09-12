@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionHandlerConfig {
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Errors> handlerEntityNotFoundException(EntityNotFoundException ex){
+    public ResponseEntity<Errors> handlerEntityNotFoundException(EntityNotFoundException ex) {
         Errors errors = new Errors().addErrorsItem(new Error(HttpStatus.NOT_FOUND.toString(), ex.getMessage(), Error.LevelEnum.ERROR, ex.getMessage()));
         return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InvalidValueException.class)
-    public ResponseEntity<Errors> handlerInvalidItemQuantityException(InvalidValueException ex){
+    public ResponseEntity<Errors> handlerInvalidItemQuantityException(InvalidValueException ex) {
         Errors errors = new Errors().addErrorsItem(new Error(HttpStatus.BAD_REQUEST.toString(), ex.getMessage(), Error.LevelEnum.ERROR, ex.getMessage()));
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }

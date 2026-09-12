@@ -29,11 +29,11 @@ public class OrderServiceImpl implements OrderService {
             throw new InvalidValueException("Valor inválido para quantidade de itens");
         }
 
-        if(order.getUnitPrice() == null || BigDecimal.ZERO.compareTo(BigDecimal.valueOf(order.getUnitPrice())) >= 0){
+        if (order.getUnitPrice() == null || BigDecimal.ZERO.compareTo(BigDecimal.valueOf(order.getUnitPrice())) >= 0) {
             throw new InvalidValueException("Valor inválido para pedido. Valor deve ser maior que 0 (zero)");
         }
 
-        if(order.getName() == null || order.getName().isBlank()){
+        if (order.getName() == null || order.getName().isBlank()) {
             throw new InvalidValueException("Nome do item inválido");
         }
     }

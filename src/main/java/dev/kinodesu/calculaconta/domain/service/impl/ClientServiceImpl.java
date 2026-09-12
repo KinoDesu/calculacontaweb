@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class ClientServiceImpl implements ClientService {
     @Override
     public void validateClient(ClientRequestDTO client) {
-        if(client.getName() == null || client.getName().isBlank()){
+        if (client.getName() == null || client.getName().isBlank()) {
             throw new InvalidValueException("Nome de cliente inválido");
         }
     }

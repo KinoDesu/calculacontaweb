@@ -27,7 +27,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 @Builder
-public class ClientData extends AuditBaseData{
+public class ClientData extends AuditBaseData {
 
     @Id
     @JdbcTypeCode(Types.VARCHAR)
@@ -37,7 +37,7 @@ public class ClientData extends AuditBaseData{
     @Column(name = "client_name", nullable = false)
     private String name;
 
-    @Column(name="is_bot", nullable = false)
+    @Column(name = "is_bot", nullable = false)
     private boolean isBot;
 
     @ManyToOne

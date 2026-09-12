@@ -1,12 +1,12 @@
 package dev.kinodesu.calculaconta.application.ports.input;
 
-import dev.kinodesu.calculaconta.domain.entity.TableQrCodeResponseDTO;
-import dev.kinodesu.calculaconta.domain.entity.TableRequestDTO;
-import dev.kinodesu.calculaconta.domain.entity.TableResponseDTO;
 import dev.kinodesu.calculaconta.application.ports.input.mapper.TableMapper;
 import dev.kinodesu.calculaconta.application.ports.input.mapper.TableQrCodeMapper;
 import dev.kinodesu.calculaconta.application.ports.output.TableOutputPort;
 import dev.kinodesu.calculaconta.application.usecases.TableUseCase;
+import dev.kinodesu.calculaconta.domain.entity.TableQrCodeResponseDTO;
+import dev.kinodesu.calculaconta.domain.entity.TableRequestDTO;
+import dev.kinodesu.calculaconta.domain.entity.TableResponseDTO;
 import dev.kinodesu.calculaconta.domain.service.TableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -44,5 +44,11 @@ public class TableInputPort implements TableUseCase {
     @Override
     public TableQrCodeResponseDTO getTableQrCode(UUID tableId) {
         return tableQrCodeMapper.toResponse(tableOutputPort.getTableById(tableId));
+    }
+
+    @Override
+    public TableResponseDTO getTableByCode(String tableCode) {
+        tableService.validadeTableCode(tableCode);
+        return tableMapper.toResponse(tableOutputPort.getTableByCode(tableCode));
     }
 }

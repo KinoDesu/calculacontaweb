@@ -1,6 +1,9 @@
 package dev.kinodesu.calculaconta.infrastructure.adapters.input.rest.billcalculator.v1;
 
 import dev.kinodesu.calculaconta.api.TableApiDelegate;
+import dev.kinodesu.calculaconta.application.usecases.ClientUseCase;
+import dev.kinodesu.calculaconta.application.usecases.OrderUseCase;
+import dev.kinodesu.calculaconta.application.usecases.TableUseCase;
 import dev.kinodesu.calculaconta.domain.entity.ClientRequestDTO;
 import dev.kinodesu.calculaconta.domain.entity.ClientResponseDTO;
 import dev.kinodesu.calculaconta.domain.entity.OrderRequestDTO;
@@ -8,9 +11,6 @@ import dev.kinodesu.calculaconta.domain.entity.OrderResponseDTO;
 import dev.kinodesu.calculaconta.domain.entity.TableQrCodeResponseDTO;
 import dev.kinodesu.calculaconta.domain.entity.TableRequestDTO;
 import dev.kinodesu.calculaconta.domain.entity.TableResponseDTO;
-import dev.kinodesu.calculaconta.application.usecases.ClientUseCase;
-import dev.kinodesu.calculaconta.application.usecases.OrderUseCase;
-import dev.kinodesu.calculaconta.application.usecases.TableUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +61,7 @@ public class TableDelegateImpl implements TableApiDelegate {
 
         ServletUriComponentsBuilder servletUriComponentsBuilder = ServletUriComponentsBuilder.fromCurrentContextPath();
 
-        return CompletableFuture.supplyAsync(()->{
+        return CompletableFuture.supplyAsync(() -> {
             ClientResponseDTO savedClient = clientUseCase.createOrUpdateTableClient(tableId, clientRequestDTO);
 
             URI location = servletUriComponentsBuilder
@@ -78,7 +78,7 @@ public class TableDelegateImpl implements TableApiDelegate {
 
         ServletUriComponentsBuilder servletUriComponentsBuilder = ServletUriComponentsBuilder.fromCurrentContextPath();
 
-        return CompletableFuture.supplyAsync(()->{
+        return CompletableFuture.supplyAsync(() -> {
             OrderResponseDTO savedOrder = orderUseCase.createOrUpdateTableOrder(tableId, orderRequestDTO);
 
             URI location = servletUriComponentsBuilder
@@ -92,21 +92,26 @@ public class TableDelegateImpl implements TableApiDelegate {
 
     @Override
     public CompletableFuture<ResponseEntity<TableResponseDTO>> getTableById(UUID tableId) {
-        return CompletableFuture.supplyAsync(()->ResponseEntity.ok(tableUseCase.getTableById(tableId)));
+        return CompletableFuture.supplyAsync(() -> ResponseEntity.ok(tableUseCase.getTableById(tableId)));
     }
 
     @Override
     public CompletableFuture<ResponseEntity<List<ClientResponseDTO>>> getTableClients(UUID tableId) {
-        return CompletableFuture.supplyAsync(()->ResponseEntity.ok(clientUseCase.getAllClientsByTableId(tableId)));
+        return CompletableFuture.supplyAsync(() -> ResponseEntity.ok(clientUseCase.getAllClientsByTableId(tableId)));
     }
 
     @Override
     public CompletableFuture<ResponseEntity<List<OrderResponseDTO>>> getTableOrders(UUID tableId) {
-        return CompletableFuture.supplyAsync(()->ResponseEntity.ok(orderUseCase.getAllOrdersByTableId(tableId)));
+        return CompletableFuture.supplyAsync(() -> ResponseEntity.ok(orderUseCase.getAllOrdersByTableId(tableId)));
     }
 
     @Override
     public CompletableFuture<ResponseEntity<TableQrCodeResponseDTO>> getTableQrCode(UUID tableId) {
-        return CompletableFuture.supplyAsync(()->ResponseEntity.ok(tableUseCase.getTableQrCode(tableId)));
+        return CompletableFuture.supplyAsync(() -> ResponseEntity.ok(tableUseCase.getTableQrCode(tableId)));
+    }
+
+    @Override
+    public CompletableFuture<ResponseEntity<TableResponseDTO>> getTableByCode(String tableCode) {
+        return CompletableFuture.supplyAsync(() -> ResponseEntity.ok(tableUseCase.getTableByCode(tableCode)));
     }
 }
