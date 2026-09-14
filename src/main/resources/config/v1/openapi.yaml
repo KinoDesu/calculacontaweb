@@ -46,7 +46,7 @@ paths:
                   clientQuantity: 4
 
       responses:
-        "200":
+        "201":
           description: Table successfully created or updated.
           content:
             application/json:
@@ -282,7 +282,7 @@ paths:
                     - "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
 
       responses:
-        "200":
+        "201":
           description: Order successfully created or updated.
           content:
             application/json:
@@ -425,7 +425,7 @@ paths:
                   bot: false
 
       responses:
-        "200":
+        "201":
           description: Client successfully created or updated.
           content:
             application/json:

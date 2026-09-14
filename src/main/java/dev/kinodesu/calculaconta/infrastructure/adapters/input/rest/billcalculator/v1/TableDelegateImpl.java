@@ -52,7 +52,7 @@ public class TableDelegateImpl implements TableApiDelegate {
                     .buildAndExpand(savedTable.getTableId())
                     .toUri();
 
-            return ResponseEntity.created(location).build();
+            return ResponseEntity.created(location).body(savedTable);
         });
     }
 
@@ -69,7 +69,7 @@ public class TableDelegateImpl implements TableApiDelegate {
                     .buildAndExpand(savedClient.getClientId())
                     .toUri();
 
-            return ResponseEntity.created(location).build();
+            return ResponseEntity.created(location).body(savedClient);
         });
     }
 
@@ -86,7 +86,7 @@ public class TableDelegateImpl implements TableApiDelegate {
                     .buildAndExpand(savedOrder.getOrderId())
                     .toUri();
 
-            return ResponseEntity.created(location).build();
+            return ResponseEntity.created(location).body(savedOrder);
         });
     }
 
