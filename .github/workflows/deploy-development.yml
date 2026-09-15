@@ -112,6 +112,16 @@ jobs:
 
       - name: Verify health
         run: |
+          CONTEXT_PATH=$(grep '^CONTEXT_PATH=' /tmp/backend.env | cut -d'=' -f2-)
+          
           ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
-            "curl --fail --silent --show-error \
-              http://localhost:8080/bill-calculator/actuator/health"
+            "for i in {1..60}; do \
+              if curl --fail --silent --show-error \
+                http://localhost:8080${CONTEXT_PATH}/actuator/health; then \
+                exit 0; \
+              fi; \
+              echo 'Backend ainda iniciando...'; \
+              sleep 2; \
+            done; \
+            echo 'Backend não ficou saudável a tempo.'; \
+            exit 1"
