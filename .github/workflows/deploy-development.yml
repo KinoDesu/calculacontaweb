@@ -112,12 +112,13 @@ jobs:
 
       - name: Wait for backend readiness
         run: |
+          PORT=$(grep '^PORT=' /tmp/backend.env | cut -d'=' -f2-)
           CONTEXT_PATH=$(grep '^CONTEXT_PATH=' /tmp/backend.env | cut -d'=' -f2-)
 
           ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
-            "timeout 180s bash -c '
+            "PORT='${PORT}' CONTEXT_PATH='${CONTEXT_PATH}' timeout 600s bash -c '
               until curl --silent --fail \
-                http://localhost:${PORT}{CONTEXT_PATH}/actuator/health/readiness \
+                http://localhost:\${PORT}\${CONTEXT_PATH}/actuator/health/readiness \
                 > /dev/null; do
                 sleep 1
               done
