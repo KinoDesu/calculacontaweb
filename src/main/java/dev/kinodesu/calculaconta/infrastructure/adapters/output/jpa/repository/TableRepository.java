@@ -14,7 +14,11 @@ import java.util.UUID;
 @Repository
 public interface TableRepository extends JpaRepository<TableData, UUID> {
 
-    @Query("SELECT t FROM table t WHERE t.code = :tableCode AND BINARY(t.code) = BINARY(:tableCode)")
+    @Query("""
+                SELECT t
+                FROM TableData t
+                WHERE LOWER(t.code) = LOWER(:code)
+            """)
     Optional<TableData> findByCode(String tableCode);
 
     @Modifying
