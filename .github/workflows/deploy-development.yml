@@ -126,8 +126,9 @@ jobs:
 
       - name: Verify health
         run: |
+          PORT=$(grep '^PORT=' /tmp/backend.env | cut -d'=' -f2-)
           CONTEXT_PATH=$(grep '^CONTEXT_PATH=' /tmp/backend.env | cut -d'=' -f2-)
 
           ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
             "curl --fail --silent --show-error \
-              http://localhost:${PORT}{CONTEXT_PATH}/actuator/health"
+              http://localhost:${PORT}${CONTEXT_PATH}/actuator/health"
