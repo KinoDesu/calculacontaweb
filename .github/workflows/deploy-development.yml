@@ -1,0 +1,117 @@
+name: Deploy Backend
+
+on:
+  pull_request:
+    branches:
+      - development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Grant Maven Wrapper permission
+        run: chmod +x mvnw
+
+      - name: Run tests and build
+        run: ./mvnw clean package
+
+      - name: Install YAML parser
+        run: pip install pyyaml
+
+      - name: Generate backend .env
+        run: |
+          python - <<'PY'
+          import shlex
+          import yaml
+          
+          values_file = ".cd/dev/values-dev.yaml"
+          output_file = "/tmp/backend.env"
+          
+          with open(values_file, "r", encoding="utf-8") as file:
+              config = yaml.safe_load(file)
+          
+          with open(output_file, "w", encoding="utf-8") as file:
+              for environment in config.get("environment", []):
+                  name = environment.get("name")
+                  value = environment.get("value")
+          
+                  if name is None or value is None:
+                      continue
+          
+                  file.write(f"{name}={shlex.quote(str(value))}\n")
+          
+          print(f"Generated {output_file}")
+          PY
+
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TAILSCALE_CLIENT_SECRET }}
+          tags: tag:ci
+          ping: ${{ secrets.RASPBERRY_HOST }}
+
+      - name: Configure SSH agent
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.RASPBERRY_SSH_KEY }}
+
+      - name: Configure known hosts
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan -H "${{ secrets.RASPBERRY_HOST }}" >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Find JAR
+        run: |
+          JAR=$(find target \
+            -maxdepth 1 \
+            -type f \
+            -name '*.jar' \
+            ! -name '*.jar.original' \
+            | head -n 1)
+          
+          if [ -z "$JAR" ]; then
+            echo "JAR not found"
+            exit 1
+          fi
+          
+          echo "JAR=$JAR" >> "$GITHUB_ENV"
+
+      - name: Deploy JAR
+        run: |
+          scp "$JAR" \
+            "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}:/opt/calculaconta/backend/calculaconta.jar"
+
+      - name: Deploy environment
+        run: |
+          scp /tmp/backend.env \
+            "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}:/opt/calculaconta/backend/.env"
+
+      - name: Restart backend
+        run: |
+          ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
+            "sudo -n systemctl restart calculaconta-backend"
+
+      - name: Verify backend
+        run: |
+          ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
+            "sudo -n systemctl is-active calculaconta-backend"
+
+      - name: Verify health
+        run: |
+          ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
+            "curl --fail --silent --show-error \
+              http://localhost:8080/bill-calculator/actuator/health"

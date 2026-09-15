@@ -1,0 +1,13 @@
+environment:
+  - name: DATABASE_URL
+    value: "jdbc:postgresql://db.ocfmwaekvfjwzyuorutr.supabase.co:5432/postgres"
+  - name: DATABASE_DRIVER
+    value: "org.postgresql.Driver"
+  - name: DATABASE_DDL_AUTO
+    value: "none"
+  - name: PORT
+    value: "8080"
+  - name: CONTEXT_PATH
+    value: "/bill-calculator"
+  - name: CORS_ALLOWED_ORIGINS
+    value: "*"
