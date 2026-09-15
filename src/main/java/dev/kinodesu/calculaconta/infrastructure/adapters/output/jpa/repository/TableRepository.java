@@ -16,7 +16,7 @@ public interface TableRepository extends JpaRepository<TableData, UUID> {
 
     @Query("""
                 SELECT t
-                FROM TableData t
+                FROM table t
                 WHERE t.code = :tableCode
             """)
     Optional<TableData> findByCode(String tableCode);
