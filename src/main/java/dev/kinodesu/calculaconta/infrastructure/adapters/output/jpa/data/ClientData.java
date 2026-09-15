@@ -37,9 +37,6 @@ public class ClientData extends AuditBaseData {
     @Column(name = "client_name", nullable = false)
     private String name;
 
-    @Column(name = "is_bot", nullable = false)
-    private boolean isBot;
-
     @ManyToOne
     @JoinColumn(name = "fk_table_id", nullable = false)
     private TableData tableData;

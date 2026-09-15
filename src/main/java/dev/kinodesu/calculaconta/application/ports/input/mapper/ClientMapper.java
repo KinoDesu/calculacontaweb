@@ -14,7 +14,6 @@ public interface ClientMapper {
 
     @Mapping(target = "clientId", source = "clientId")
     @Mapping(target = "name", source = "name")
-    @Mapping(target = "bot", source = "bot")
     @Mapping(target = "tableId", source = "tableId")
     ClientResponseDTO toResponse(Client client);
 
@@ -22,7 +21,6 @@ public interface ClientMapper {
 
     @Mapping(target = "clientId", source = "clientRequestDTO.clientId")
     @Mapping(target = "name", source = "clientRequestDTO.name")
-    @Mapping(target = "isBot", source = "clientRequestDTO.bot")
     @Mapping(target = "tableId", source = "tableId")
     Client toEntity(ClientRequestDTO clientRequestDTO, UUID tableId);
 }

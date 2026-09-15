@@ -374,11 +374,8 @@ paths:
                   value:
                     - clientId: "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
                       name: "Leonardo"
-                      bot: false
                       tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
                     - clientId: "8a1c4d2e-7f35-4b91-b623-987654321def"
-                      name: "Bot"
-                      bot: true
                       tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
 
         "400":
@@ -416,13 +413,11 @@ paths:
                 summary: Create client
                 value:
                   name: "Leonardo"
-                  bot: false
               update:
                 summary: Update client
                 value:
                   clientId: "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
                   name: "Leonardo"
-                  bot: false
 
       responses:
         "201":
@@ -437,7 +432,6 @@ paths:
                   value:
                     clientId: "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
                     name: "Leonardo"
-                    bot: false
                     tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
 
         "400":
@@ -556,7 +550,6 @@ paths:
                   value:
                     clientId: "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
                     name: "Leonardo"
-                    bot: false
                     tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
 
         "400":
@@ -904,12 +897,6 @@ components:
           examples:
             - "Leonardo"
 
-        bot:
-          type: boolean
-          description: Indicates whether the client is a bot.
-          examples:
-            - false
-
 
     TableResponseDTO:
       type: object
@@ -997,12 +984,6 @@ components:
           examples:
             - "Leonardo"
 
-        bot:
-          type: boolean
-          description: Indicates whether the client is a bot.
-          examples:
-            - false
-
         tableId:
           type: string
           format: uuid
@@ -1013,7 +994,6 @@ components:
       required:
         - clientId
         - name
-        - bot
         - tableId
 
 

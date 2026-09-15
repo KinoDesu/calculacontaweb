@@ -16,6 +16,5 @@ import java.util.UUID;
 public class Client {
     private UUID clientId;
     private String name;
-    private boolean isBot;
     private UUID tableId;
 }
