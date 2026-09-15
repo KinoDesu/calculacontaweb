@@ -63,7 +63,11 @@ public class TableAdapterImpl implements TableOutputPort {
 
     @Override
     public Table getTableByCode(String tableCode) {
-        return tableDataMapper.toEntity(tableRepository.findByCode(tableCode).orElseThrow(() -> new EntityNotFoundException(String.format("Mesa %s não encontrada", tableCode))));
+        Table table = tableDataMapper.toEntity(tableRepository.findByCode(tableCode).orElseThrow(() -> new EntityNotFoundException(String.format("Mesa %s não encontrada", tableCode))));
+        if (!table.getCode().equals(tableCode)) {
+            throw new EntityNotFoundException(String.format("Mesa %s não encontrada", tableCode));
+        }
+        return table;
     }
 
     private byte[] generateQrCode(String redirectUrl) {
