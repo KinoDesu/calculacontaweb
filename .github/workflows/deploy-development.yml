@@ -108,7 +108,7 @@ jobs:
       - name: Verify backend
         run: |
           ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
-            "sudo -n systemctl is-active calculaconta-backend"
+            "sudo -n systemctl is-active --quiet calculaconta-backend"
 
       - name: Verify health
         run: |
