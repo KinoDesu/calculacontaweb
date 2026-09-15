@@ -105,30 +105,40 @@ jobs:
           ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
             "sudo -n systemctl restart calculaconta-backend"
 
-      - name: Verify backend
+      - name: Verify backend process
         run: |
           ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
             "sudo -n systemctl is-active --quiet calculaconta-backend"
 
       - name: Wait for backend readiness
         run: |
-          PORT=$(grep '^PORT=' /tmp/backend.env | cut -d'=' -f2-)
-          CONTEXT_PATH=$(grep '^CONTEXT_PATH=' /tmp/backend.env | cut -d'=' -f2-)
-
           ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
-            "PORT='${PORT}' CONTEXT_PATH='${CONTEXT_PATH}' timeout 600s bash -c '
-              until curl --silent --fail \
-                http://localhost:\${PORT}\${CONTEXT_PATH}/actuator/health/readiness \
-                > /dev/null; do
-                sleep 1
-              done
+            "bash -lc '
+              set -a
+              source /opt/calculaconta/backend/.env
+              set +a
+
+              echo \"Waiting for backend readiness...\"
+
+              timeout 600s bash -c \"
+                until curl --silent --fail \
+                  http://localhost:\${PORT}\${CONTEXT_PATH}/actuator/health/readiness \
+                  > /dev/null; do
+                  sleep 1
+                done
+              \"
+
+              echo \"Backend is ready!\"
             '"
 
       - name: Verify health
         run: |
-          PORT=$(grep '^PORT=' /tmp/backend.env | cut -d'=' -f2-)
-          CONTEXT_PATH=$(grep '^CONTEXT_PATH=' /tmp/backend.env | cut -d'=' -f2-)
-
           ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
-            "curl --fail --silent --show-error \
-              http://localhost:${PORT}${CONTEXT_PATH}/actuator/health"
+            "bash -lc '
+              set -a
+              source /opt/calculaconta/backend/.env
+              set +a
+
+              curl --fail --silent --show-error \
+                http://localhost:\${PORT}\${CONTEXT_PATH}/actuator/health
+            '"
