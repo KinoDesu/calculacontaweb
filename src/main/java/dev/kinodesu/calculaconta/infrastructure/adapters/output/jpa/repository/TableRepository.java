@@ -17,7 +17,7 @@ public interface TableRepository extends JpaRepository<TableData, UUID> {
     @Query("""
                 SELECT t
                 FROM TableData t
-                WHERE LOWER(t.code) = LOWER(:code)
+                WHERE t.code = :tableCode
             """)
     Optional<TableData> findByCode(String tableCode);
 
