@@ -37,6 +37,7 @@ management:
       show-details: "ALWAYS"
       probes:
         enabled: true
+
   health:
     livenessState:
       enabled: true
@@ -44,7 +45,8 @@ management:
       enabled: true
 
 probe:
-  path: ${CONTEXT_PATH}/actuator/health
+  liveness-path: ${CONTEXT_PATH}/actuator/health/liveness
+  readiness-path: ${CONTEXT_PATH}/actuator/health/readiness
   port: http
   initialDelaySecondsLiveness: 120
   initialDelaySecondsReadness: 120

@@ -34,23 +34,23 @@ jobs:
           python - <<'PY'
           import shlex
           import yaml
-          
+
           values_file = ".cd/dev/values-dev.yaml"
           output_file = "/tmp/backend.env"
-          
+
           with open(values_file, "r", encoding="utf-8") as file:
               config = yaml.safe_load(file)
-          
+
           with open(output_file, "w", encoding="utf-8") as file:
               for environment in config.get("environment", []):
                   name = environment.get("name")
                   value = environment.get("value")
-          
+
                   if name is None or value is None:
                       continue
-          
+
                   file.write(f"{name}={shlex.quote(str(value))}\n")
-          
+
           print(f"Generated {output_file}")
           PY
 
@@ -82,12 +82,12 @@ jobs:
             -name '*.jar' \
             ! -name '*.jar.original' \
             | head -n 1)
-          
+
           if [ -z "$JAR" ]; then
             echo "JAR not found"
             exit 1
           fi
-          
+
           echo "JAR=$JAR" >> "$GITHUB_ENV"
 
       - name: Deploy JAR
@@ -110,18 +110,23 @@ jobs:
           ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
             "sudo -n systemctl is-active --quiet calculaconta-backend"
 
+      - name: Wait for backend readiness
+        run: |
+          CONTEXT_PATH=$(grep '^CONTEXT_PATH=' /tmp/backend.env | cut -d'=' -f2-)
+
+          ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
+            "timeout 180s bash -c '
+              until curl --silent --fail \
+                http://localhost:${PORT}{CONTEXT_PATH}/actuator/health/readiness \
+                > /dev/null; do
+                sleep 1
+              done
+            '"
+
       - name: Verify health
         run: |
           CONTEXT_PATH=$(grep '^CONTEXT_PATH=' /tmp/backend.env | cut -d'=' -f2-)
-          
+
           ssh "${{ secrets.RASPBERRY_USER }}@${{ secrets.RASPBERRY_HOST }}" \
-            "for i in {1..60}; do \
-              if curl --fail --silent --show-error \
-                http://localhost:8080${CONTEXT_PATH}/actuator/health; then \
-                exit 0; \
-              fi; \
-              echo 'Backend ainda iniciando...'; \
-              sleep 2; \
-            done; \
-            echo 'Backend não ficou saudável a tempo.'; \
-            exit 1"
+            "curl --fail --silent --show-error \
+              http://localhost:${PORT}{CONTEXT_PATH}/actuator/health"
