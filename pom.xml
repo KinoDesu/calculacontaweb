@@ -31,11 +31,12 @@
         <lombok.version>1.18.30</lombok.version>
         <org.mapstruct.version>1.6.2</org.mapstruct.version>
         <mysql-connector-j.version>9.1.0</mysql-connector-j.version>
-        <springdoc-openapi-starter-webmvc-ui.version>2.8.6</springdoc-openapi-starter-webmvc-ui.version>
-        <spring-boot-actuator.version>3.3.9</spring-boot-actuator.version>
-        <spring-boot-actuator-autoconfigure.version>3.3.9</spring-boot-actuator-autoconfigure.version>
-        <spring-boot-starter-actuator.version>3.3.9</spring-boot-starter-actuator.version>
+        <spring-boot-actuator.version>3.4.4</spring-boot-actuator.version>
+        <spring-boot-actuator-autoconfigure.version>3.4.4</spring-boot-actuator-autoconfigure.version>
+        <spring-boot-starter-actuator.version>3.4.4</spring-boot-starter-actuator.version>
         <spring-boot-autoconfigure.version>3.4.4</spring-boot-autoconfigure.version>
+        <openapi-generator-maven-plugin.version>7.21.0</openapi-generator-maven-plugin.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.8.14</springdoc-openapi-starter-webmvc-ui.version>
     </properties>
     <dependencies>
         <dependency>
@@ -76,11 +77,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
@@ -109,6 +105,37 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+        <!-- Qr code -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+
+        <!-- OpenAPI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -152,6 +179,40 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <generatorName>spring</generatorName>
+                            <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+                            <skipValidateSpec>true</skipValidateSpec>
+                            <apiPackage>dev.kinodesu.calculaconta.api</apiPackage>
+                            <modelPackage>dev.kinodesu.calculaconta.domain.entity</modelPackage>
+                            <inputSpec>${project.basedir}/src/main/resources/config/v1/openapi.yaml</inputSpec>
+                            <templateDirectory>${project.basedir}/src/main/resources/config/v1/templates</templateDirectory>
+                            <configOptions>
+                                <documentationsProvider>springdoc</documentationsProvider>
+                                <serializableModel>true</serializableModel>
+                                <snapshotVersion>true</snapshotVersion>
+                                <implicitHeaders>true</implicitHeaders>
+                                <openApiNullable>false</openApiNullable>
+                                <delegatePattern>true</delegatePattern>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <useBeanValidation>false</useBeanValidation>
+                                <useTags>true</useTags>
+                                <generateBuilders>true</generateBuilders>
+                                <async>true</async>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

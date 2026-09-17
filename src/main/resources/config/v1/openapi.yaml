@@ -1,0 +1,1098 @@
+openapi: 3.1.0
+
+info:
+  title: Bill Calculator API
+  version: 1.0.0
+  description: |-
+    This API manages tables, clients and orders.
+
+servers:
+  - url: ""
+
+tags:
+  - name: table
+    description: Operations related to tables
+  - name: order
+    description: Operations related to orders within a table
+  - name: client
+    description: Operations related to clients within a table
+
+paths:
+
+  /table:
+    post:
+      tags:
+        - table
+      operationId: createOrUpdateTable
+      description: Creates a new table or updates an existing table.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TableRequestDTO"
+            examples:
+              create:
+                summary: Create table
+                value:
+                  tableName: "Table 01"
+                  clientQuantity: 4
+                  redirectUrl: "https://calculaconta.com/table/215e2053-b371-4d57-92bc-2f5e8214debf"
+              update:
+                summary: Update table
+                value:
+                  tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
+                  tableName: "Table 01"
+                  clientQuantity: 4
+
+      responses:
+        "201":
+          description: Table successfully created or updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableResponseDTO"
+              examples:
+                default:
+                  summary: Table response
+                  value:
+                    tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
+                    name: "Table 01"
+                    code: "ABC123"
+                    clientQuantity: 4
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+
+
+  /table/{tableId}:
+    get:
+      tags:
+        - table
+      operationId: getTableById
+      description: Retrieves a table by its unique identifier.
+      parameters:
+        - $ref: "#/components/parameters/TableId"
+
+      responses:
+        "200":
+          description: Table successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableResponseDTO"
+              examples:
+                default:
+                  summary: Table response
+                  value:
+                    tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
+                    name: "Table 01"
+                    code: "ABC123"
+                    clientQuantity: 4
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+
+  /table/code/{tableCode}:
+    get:
+      tags:
+        - table
+      operationId: getTableByCode
+      description: Retrieves a table by its unique code.
+      parameters:
+        - $ref: "#/components/parameters/tableCode"
+
+      responses:
+        "200":
+          description: Table successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableResponseDTO"
+              examples:
+                default:
+                  summary: Table response
+                  value:
+                    tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
+                    name: "Table 01"
+                    code: "ABC123"
+                    clientQuantity: 4
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+
+  /table/{tableId}/qrCode:
+    get:
+      tags:
+        - table
+      operationId: getTableQrCode
+      description: Retrieves the name, code and QR Code associated with a table.
+      parameters:
+        - $ref: "#/components/parameters/TableId"
+
+      responses:
+        "200":
+          description: Table QR Code successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableQrCodeResponseDTO"
+              examples:
+                default:
+                  summary: Table QR Code response
+                  value:
+                    name: "Table 01"
+                    code: "ABC123"
+                    qrCode: "iVBORw0KGgoAAAANSUhEUgAA..."
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+
+
+  /table/{tableId}/orders:
+    get:
+      tags:
+        - table
+      operationId: getTableOrders
+      description: Retrieves all orders associated with a table.
+      parameters:
+        - $ref: "#/components/parameters/TableId"
+
+      responses:
+        "200":
+          description: Orders successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponseDTO"
+              examples:
+                default:
+                  summary: Table orders response
+                  value:
+                    - orderId: "6b3e8a71-2d4f-4c91-9e12-abcdef123456"
+                      name: "Coca-Cola"
+                      unitPrice: 7.50
+                      quantity: 2
+                      totalPrice: 15.00
+                      tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
+                      pricePerPerson: 7.50
+                      clients:
+                        - clientId: "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+                          clientName: "Leonardo"
+                          amount: 7.50
+                        - clientId: "8a1c4d2e-7f35-4b91-b623-987654321def"
+                          clientName: "Maria"
+                          amount: 7.50
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+
+
+    post:
+      tags:
+        - table
+      operationId: createOrUpdateTableOrder
+      description: Creates a new order or updates an existing order associated with a table.
+      parameters:
+        - $ref: "#/components/parameters/TableId"
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderRequestDTO"
+            examples:
+              create:
+                summary: Create order
+                value:
+                  name: "Coca-Cola"
+                  unitPrice: 7.50
+                  quantity: 2
+                  clientList:
+                    - "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+              update:
+                summary: Update order
+                value:
+                  orderId: "6b3e8a71-2d4f-4c91-9e12-abcdef123456"
+                  name: "Coca-Cola"
+                  unitPrice: 7.50
+                  quantity: 2
+                  clientList:
+                    - "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+
+      responses:
+        "201":
+          description: Order successfully created or updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderResponseDTO"
+              examples:
+                default:
+                  summary: Order response
+                  value:
+                    orderId: "6b3e8a71-2d4f-4c91-9e12-abcdef123456"
+                    name: "Coca-Cola"
+                    unitPrice: 7.50
+                    quantity: 2
+                    totalPrice: 15.00
+                    tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
+                    pricePerPerson: 7.50
+                    clients:
+                      - clientId: "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+                        clientName: "Leonardo"
+                        amount: 7.50
+                      - clientId: "8a1c4d2e-7f35-4b91-b623-987654321def"
+                        clientName: "Maria"
+                        amount: 7.50
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+
+
+    delete:
+      tags:
+        - table
+      operationId: clearTableOrders
+      description: Removes all orders associated with a table.
+      parameters:
+        - $ref: "#/components/parameters/TableId"
+
+      responses:
+        "204":
+          $ref: "#/components/responses/NoContent"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+
+
+  /table/{tableId}/clients:
+    get:
+      tags:
+        - table
+      operationId: getTableClients
+      description: Retrieves all clients associated with a table.
+      parameters:
+        - $ref: "#/components/parameters/TableId"
+
+      responses:
+        "200":
+          description: Clients successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ClientResponseDTO"
+              examples:
+                default:
+                  summary: Table clients response
+                  value:
+                    - clientId: "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+                      name: "Leonardo"
+                      tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
+                    - clientId: "8a1c4d2e-7f35-4b91-b623-987654321def"
+                      tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+
+
+    post:
+      tags:
+        - table
+      operationId: createOrUpdateTableClient
+      description: Creates a new client or updates an existing client associated with a table.
+      parameters:
+        - $ref: "#/components/parameters/TableId"
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientRequestDTO"
+            examples:
+              create:
+                summary: Create client
+                value:
+                  name: "Leonardo"
+              update:
+                summary: Update client
+                value:
+                  clientId: "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+                  name: "Leonardo"
+
+      responses:
+        "201":
+          description: Client successfully created or updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientResponseDTO"
+              examples:
+                default:
+                  summary: Client response
+                  value:
+                    clientId: "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+                    name: "Leonardo"
+                    tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+
+
+  /order/{orderId}:
+    get:
+      tags:
+        - order
+      operationId: getOrderById
+      description: Retrieves an order by its unique identifier.
+      parameters:
+        - $ref: "#/components/parameters/OrderId"
+
+      responses:
+        "200":
+          description: Order successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderResponseDTO"
+              examples:
+                default:
+                  summary: Order response
+                  value:
+                    orderId: "6b3e8a71-2d4f-4c91-9e12-abcdef123456"
+                    name: "Coca-Cola"
+                    unitPrice: 7.50
+                    quantity: 2
+                    totalPrice: 15.00
+                    tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
+                    pricePerPerson: 7.50
+                    clients:
+                      - clientId: "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+                        clientName: "Leonardo"
+                        amount: 7.50
+                      - clientId: "8a1c4d2e-7f35-4b91-b623-987654321def"
+                        clientName: "Maria"
+                        amount: 7.50
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+
+
+    delete:
+      tags:
+        - order
+      operationId: deleteOrder
+      description: Deletes an order by its unique identifier.
+      parameters:
+        - $ref: "#/components/parameters/OrderId"
+
+      responses:
+        "204":
+          $ref: "#/components/responses/NoContent"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+
+
+  /client/{clientId}:
+    get:
+      tags:
+        - client
+      operationId: getClientById
+      description: Retrieves a client by its unique identifier.
+      parameters:
+        - $ref: "#/components/parameters/ClientId"
+
+      responses:
+        "200":
+          description: Client successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientResponseDTO"
+              examples:
+                default:
+                  summary: Client response
+                  value:
+                    clientId: "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+                    name: "Leonardo"
+                    tableId: "215e2053-b371-4d57-92bc-2f5e8214debf"
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+
+
+components:
+
+  parameters:
+
+    TableId:
+      name: tableId
+      in: path
+      required: true
+      description: Unique identifier of the table.
+      schema:
+        type: string
+        format: uuid
+        examples:
+          - "215e2053-b371-4d57-92bc-2f5e8214debf"
+
+    tableCode:
+      name: tableCode
+      in: path
+      required: true
+      description: Unique code of the table.
+      schema:
+        type: string
+        examples:
+          - "HxkTT"
+
+    OrderId:
+      name: orderId
+      in: path
+      required: true
+      description: Unique identifier of the order.
+      schema:
+        type: string
+        format: uuid
+        examples:
+          - "6b3e8a71-2d4f-4c91-9e12-abcdef123456"
+
+
+    ClientId:
+      name: clientId
+      in: path
+      required: true
+      description: Unique identifier of the client.
+      schema:
+        type: string
+        format: uuid
+        examples:
+          - "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+
+
+  responses:
+
+    NoContent:
+      description: The request was successfully processed and there is no content to return.
+
+
+    BadRequest:
+      description: The request is invalid or contains invalid parameters.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Errors"
+          examples:
+            invalidRequest:
+              summary: Invalid request
+              value:
+                errors:
+                  - code: "INVALID_REQUEST"
+                    message: "Invalid request."
+                    level: "ERROR"
+                    description: "One or more request parameters or fields are invalid."
+
+
+    Unauthorized:
+      description: Authentication is required or the provided authentication credentials are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Errors"
+          examples:
+            unauthorized:
+              summary: Authentication required
+              value:
+                errors:
+                  - code: "UNAUTHORIZED"
+                    message: "Authentication is required."
+                    level: "ERROR"
+                    description: "Valid authentication credentials are required to access this resource."
+
+
+    Forbidden:
+      description: The client is authenticated but does not have permission to perform this operation.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Errors"
+          examples:
+            forbidden:
+              summary: Access denied
+              value:
+                errors:
+                  - code: "FORBIDDEN"
+                    message: "Access denied."
+                    level: "ERROR"
+                    description: "The authenticated client does not have permission to perform this operation."
+
+
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Errors"
+          examples:
+            resourceNotFound:
+              summary: Resource not found
+              value:
+                errors:
+                  - code: "RESOURCE_NOT_FOUND"
+                    message: "Resource not found."
+                    level: "ERROR"
+                    description: "The requested resource could not be found."
+
+
+    InternalServerError:
+      description: An unexpected internal server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Errors"
+          examples:
+            internalServerError:
+              summary: Internal server error
+              value:
+                errors:
+                  - code: "INTERNAL_SERVER_ERROR"
+                    message: "An unexpected error occurred."
+                    level: "FATAL"
+                    description: "An unexpected internal error occurred while processing the request."
+
+
+    ServiceUnavailable:
+      description: The service is temporarily unavailable.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Errors"
+          examples:
+            serviceUnavailable:
+              summary: Service unavailable
+              value:
+                errors:
+                  - code: "SERVICE_UNAVAILABLE"
+                    message: "Service temporarily unavailable."
+                    level: "ERROR"
+                    description: "The service is temporarily unavailable. Please try again later."
+
+
+    GatewayTimeout:
+      description: The server did not receive a timely response from an upstream service.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Errors"
+          examples:
+            gatewayTimeout:
+              summary: Gateway timeout
+              value:
+                errors:
+                  - code: "GATEWAY_TIMEOUT"
+                    message: "Gateway timeout."
+                    level: "ERROR"
+                    description: "The server did not receive a timely response from an upstream service."
+
+
+  schemas:
+
+    Errors:
+      type: object
+      description: Represents one or more errors returned by the API.
+      properties:
+        errors:
+          type: array
+          description: List of errors returned by the API.
+          items:
+            $ref: "#/components/schemas/Error"
+      required:
+        - errors
+      examples:
+        - errors:
+            - code: "INVALID_REQUEST"
+              message: "Invalid request."
+              level: "ERROR"
+              description: "One or more request parameters or fields are invalid."
+
+
+    Error:
+      type: object
+      description: Represents an error returned by the API.
+      properties:
+
+        code:
+          type: string
+          description: Unique code identifying the error.
+          examples:
+            - "INVALID_REQUEST"
+
+        message:
+          type: string
+          description: Short and human-readable error message.
+          examples:
+            - "Invalid request."
+
+        level:
+          type: string
+          description: Severity level of the error.
+          enum:
+            - ERROR
+            - FATAL
+            - INFO
+            - WARNING
+          examples:
+            - "ERROR"
+
+        description:
+          type: string
+          description: Detailed description of the error.
+          examples:
+            - "One or more request parameters or fields are invalid."
+
+      required:
+        - code
+        - message
+        - level
+        - description
+
+
+    TableRequestDTO:
+      type: object
+      description: Data required to create or update a table.
+      properties:
+
+        tableId:
+          type: string
+          format: uuid
+          description: Unique identifier of the table. Required when updating an existing table.
+          examples:
+            - "215e2053-b371-4d57-92bc-2f5e8214debf"
+
+        tableName:
+          type: string
+          description: Name assigned to the table.
+          examples:
+            - "Table 01"
+
+        clientQuantity:
+          type: integer
+          format: int32
+          description: Maximum number of clients allowed at the table.
+          examples:
+            - 4
+
+        redirectUrl:
+          type: string
+          format: uri
+          description: URL used to access the table.
+          examples:
+            - "https://calculaconta.com/table/215e2053-b371-4d57-92bc-2f5e8214debf"
+
+
+    OrderRequestDTO:
+      type: object
+      description: Data required to create or update an order within a table.
+      properties:
+
+        orderId:
+          type: string
+          format: uuid
+          description: Unique identifier of the order. Required when updating an existing order.
+          examples:
+            - "6b3e8a71-2d4f-4c91-9e12-abcdef123456"
+
+        name:
+          type: string
+          description: Name of the ordered product or item.
+          examples:
+            - "Coca-Cola"
+
+        unitPrice:
+          type: number
+          format: double
+          description: Price of one unit of the ordered item.
+          examples:
+            - 7.50
+
+        quantity:
+          type: integer
+          format: int32
+          description: Quantity of the ordered item.
+          examples:
+            - 2
+
+        clientList:
+          type: array
+          description: Identifiers of the clients associated with the order.
+          items:
+            type: string
+            format: uuid
+          examples:
+            - - "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+
+
+    ClientRequestDTO:
+      type: object
+      description: Data required to create or update a client within a table.
+      properties:
+
+        clientId:
+          type: string
+          format: uuid
+          description: Unique identifier of the client. Required when updating an existing client.
+          examples:
+            - "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+
+        name:
+          type: string
+          description: Name of the client.
+          examples:
+            - "Leonardo"
+
+
+    TableResponseDTO:
+      type: object
+      description: Represents the table information returned by the API.
+      properties:
+
+        tableId:
+          type: string
+          format: uuid
+          description: Unique identifier of the table.
+          examples:
+            - "215e2053-b371-4d57-92bc-2f5e8214debf"
+
+        name:
+          type: string
+          description: Name of the table.
+          examples:
+            - "Table 01"
+
+        code:
+          type: string
+          description: Unique code used to identify the table in the table URL.
+          examples:
+            - "ABC123"
+
+        clientQuantity:
+          type: integer
+          format: int32
+          description: Maximum number of clients allowed at the table.
+          examples:
+            - 4
+
+      required:
+        - tableId
+        - name
+        - code
+        - clientQuantity
+
+
+    TableQrCodeResponseDTO:
+      type: object
+      description: Represents the information required to display a table QR Code.
+      properties:
+
+        name:
+          type: string
+          description: Name of the table.
+          examples:
+            - "Table 01"
+
+        code:
+          type: string
+          description: Unique code used to identify the table in the table URL.
+          examples:
+            - "ABC123"
+
+        qrCode:
+          type: string
+          format: byte
+          description: QR Code image encoded as Base64.
+          examples:
+            - "iVBORw0KGgoAAAANSUhEUgAA..."
+
+      required:
+        - name
+        - code
+        - qrCode
+
+
+    ClientResponseDTO:
+      type: object
+      description: Represents the client information returned by the API.
+      properties:
+
+        clientId:
+          type: string
+          format: uuid
+          description: Unique identifier of the client.
+          examples:
+            - "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+
+        name:
+          type: string
+          description: Name of the client.
+          examples:
+            - "Leonardo"
+
+        tableId:
+          type: string
+          format: uuid
+          description: Unique identifier of the table associated with the client.
+          examples:
+            - "215e2053-b371-4d57-92bc-2f5e8214debf"
+
+      required:
+        - clientId
+        - name
+        - tableId
+
+
+    OrderResponseDTO:
+      type: object
+      description: Represents the order information returned by the API.
+      properties:
+
+        orderId:
+          type: string
+          format: uuid
+          description: Unique identifier of the order.
+          examples:
+            - "6b3e8a71-2d4f-4c91-9e12-abcdef123456"
+
+        name:
+          type: string
+          description: Name of the ordered product or item.
+          examples:
+            - "Coca-Cola"
+
+        unitPrice:
+          type: number
+          format: double
+          description: Price of one unit of the ordered item.
+          examples:
+            - 7.50
+
+        quantity:
+          type: integer
+          format: int32
+          description: Quantity of the ordered item.
+          examples:
+            - 2
+
+        totalPrice:
+          type: number
+          format: double
+          description: Total price of the order.
+          examples:
+            - 15.00
+
+        tableId:
+          type: string
+          format: uuid
+          description: Unique identifier of the table associated with the order.
+          examples:
+            - "215e2053-b371-4d57-92bc-2f5e8214debf"
+
+        pricePerPerson:
+          type: number
+          format: double
+          description: Amount to be paid by each client associated with the order.
+          examples:
+            - 7.50
+
+        clients:
+          type: array
+          description: Clients associated with the order and the amount each client must pay.
+          items:
+            $ref: "#/components/schemas/ClientOrderResponseDTO"
+
+      required:
+        - orderId
+        - name
+        - unitPrice
+        - quantity
+        - totalPrice
+        - tableId
+        - pricePerPerson
+        - clients
+
+
+    ClientOrderResponseDTO:
+      type: object
+      description: Represents a client associated with an order and the amount that client must pay.
+      properties:
+
+        clientId:
+          type: string
+          format: uuid
+          description: Unique identifier of the client.
+          examples:
+            - "3f7e6b6a-8c5d-4e21-a1b2-123456789abc"
+
+        clientName:
+          type: string
+          description: Name of the client.
+          examples:
+            - "Leonardo"
+
+        amount:
+          type: number
+          format: double
+          description: Amount to be paid by the client for the order.
+          examples:
+            - 7.50
+
+      required:
+        - clientId
+        - clientName
+        - amount
