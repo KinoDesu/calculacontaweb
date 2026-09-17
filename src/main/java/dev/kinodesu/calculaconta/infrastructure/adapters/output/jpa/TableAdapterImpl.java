@@ -9,9 +9,11 @@ import dev.kinodesu.calculaconta.application.ports.output.TableOutputPort;
 import dev.kinodesu.calculaconta.domain.model.Table;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.data.TableData;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.mapper.TableDataMapper;
+import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.repository.ClientOrderRepository;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.repository.OrderRepository;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.repository.TableRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
@@ -27,9 +29,12 @@ public class TableAdapterImpl implements TableOutputPort {
     private final OrderRepository orderRepository;
     private final TableRepository tableRepository;
     private final TableDataMapper tableDataMapper;
+    private final ClientOrderRepository clientOrderRepository;
 
     @Override
+    @Transactional
     public void deleteAllOrdersByTableId(UUID tableId) {
+        clientOrderRepository.deleteAllByTableId(tableId);
         orderRepository.deleteAllByTableId(tableId);
     }
 
