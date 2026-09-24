@@ -12,7 +12,7 @@ import java.math.RoundingMode;
 import java.util.List;
 import java.util.UUID;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = ClientOrderDataMapper.class)
 public interface OrderDataMapper {
 
     @Mapping(source = "orderId", target = "orderId")
@@ -21,7 +21,7 @@ public interface OrderDataMapper {
     @Mapping(source = "unitPrice", target = "unitPrice")
     @Mapping(source = "totalPrice", target = "totalPrice")
     @Mapping(source = "tableData.tableId", target = "tableId")
-    @Mapping(source = "clientOrderDataList", target = "clientIdList")
+    @Mapping(source = "clientOrderDataList", target = "clientOrderList")
     @Mapping(source = "orderData", target = "pricePerPerson")
     Order toEntity(OrderData orderData);
 
@@ -43,6 +43,8 @@ public interface OrderDataMapper {
     @Mapping(target = "orderId", ignore = true)
     @Mapping(target = "tableData", ignore = true)
     @Mapping(target = "clientOrderDataList", ignore = true)
+    @Mapping(target = "itemName", source = "name")
+    @Mapping(target = "itemQuantity", source = "quantity")
     void updateData(
             Order order,
             @MappingTarget OrderData existingOrder

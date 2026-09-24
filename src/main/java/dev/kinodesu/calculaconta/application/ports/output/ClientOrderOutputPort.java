@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface ClientOrderOutputPort {
     List<ClientOrder> findAllByOrderId(UUID orderId);
+
+    void deleteAllByOrderId(UUID orderId);
 }

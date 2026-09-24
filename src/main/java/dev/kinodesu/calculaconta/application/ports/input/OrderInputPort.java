@@ -6,7 +6,6 @@ import dev.kinodesu.calculaconta.application.ports.output.OrderOutputPort;
 import dev.kinodesu.calculaconta.application.usecases.OrderUseCase;
 import dev.kinodesu.calculaconta.domain.entity.OrderRequestDTO;
 import dev.kinodesu.calculaconta.domain.entity.OrderResponseDTO;
-import dev.kinodesu.calculaconta.domain.model.ClientOrder;
 import dev.kinodesu.calculaconta.domain.model.Order;
 import dev.kinodesu.calculaconta.domain.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +33,8 @@ public class OrderInputPort implements OrderUseCase {
     public OrderResponseDTO getOrderById(UUID orderId) {
 
         Order order = orderOutputPort.findById(orderId);
-        List<ClientOrder> clientOrderList = clientOrderOutputPort.findAllByOrderId(orderId);
 
-        return orderMapper.toResponse(order, clientOrderList);
+        return orderMapper.toResponse(order);
     }
 
     @Override
@@ -47,17 +45,13 @@ public class OrderInputPort implements OrderUseCase {
         BigDecimal totalAmount = orderService.calulateTotalAmount(orderRequestDTO.getUnitPrice(), orderRequestDTO.getQuantity());
         BigDecimal pricePerPerson = orderService.calulatePricePerPerson(orderRequestDTO.getUnitPrice(), orderRequestDTO.getQuantity(), orderRequestDTO.getClientList().size());
         Order newOrder = orderMapper.toEntity(orderRequestDTO, tableId, totalAmount, pricePerPerson);
-        List<ClientOrder> clientOrderList = clientOrderOutputPort.findAllByOrderId(newOrder.getOrderId());
 
-        return orderMapper.toResponse(orderOutputPort.createOrUpdateTableOrder(newOrder), clientOrderList);
+        return orderMapper.toResponse(orderOutputPort.createOrUpdateTableOrder(newOrder));
     }
 
     @Override
     public List<OrderResponseDTO> getAllOrdersByTableId(UUID tableId) {
         List<Order> orderList = orderOutputPort.findAllByTableId(tableId);
-        return orderList.stream().map(order -> {
-            List<ClientOrder> clientOrderList = clientOrderOutputPort.findAllByOrderId(order.getOrderId());
-            return orderMapper.toResponse(order, clientOrderList);
-        }).toList();
+        return orderList.stream().map(orderMapper::toResponse).toList();
     }
 }

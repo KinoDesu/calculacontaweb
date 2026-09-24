@@ -4,6 +4,7 @@ import dev.kinodesu.calculaconta.application.ports.output.ClientOrderOutputPort;
 import dev.kinodesu.calculaconta.domain.model.ClientOrder;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.mapper.ClientOrderDataMapper;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.repository.ClientOrderRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -23,5 +24,11 @@ public class ClientOrderAdapterImpl implements ClientOrderOutputPort {
                 .stream()
                 .map(clientOrderDataMapper::toEntity)
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllByOrderId(UUID orderId) {
+        clientOrderRepository.deleteAllByOrderId(orderId);
     }
 }

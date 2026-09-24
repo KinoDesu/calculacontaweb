@@ -23,5 +23,5 @@ public class Order {
     private BigDecimal totalPrice;
     private UUID tableId;
     private BigDecimal pricePerPerson;
-    private List<UUID> clientIdList;
+    private List<ClientOrder> clientOrderList;
 }

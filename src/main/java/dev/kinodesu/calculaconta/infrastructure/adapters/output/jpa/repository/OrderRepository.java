@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -28,4 +29,12 @@ public interface OrderRepository extends JpaRepository<OrderData, UUID> {
     @Modifying
     @Query("DELETE FROM order o WHERE o.tableData.tableId = :tableId")
     void deleteAllByTableId(UUID tableId);
+
+    @Query("""
+                SELECT DISTINCT o
+                FROM order o
+                LEFT JOIN FETCH o.clientOrderDataList
+                WHERE o.orderId = :orderId
+            """)
+    Optional<OrderData> findByIdWithClients(UUID orderId);
 }

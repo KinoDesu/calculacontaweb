@@ -1,5 +1,6 @@
 package dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa;
 
+import dev.kinodesu.calculaconta.application.ports.output.ClientOrderOutputPort;
 import dev.kinodesu.calculaconta.application.ports.output.OrderOutputPort;
 import dev.kinodesu.calculaconta.domain.model.Order;
 import dev.kinodesu.calculaconta.infrastructure.adapters.output.jpa.data.ClientData;
@@ -14,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -23,6 +26,7 @@ public class OrderAdapterImpl implements OrderOutputPort {
     private final OrderRepository orderRepository;
     private final OrderDataMapper orderDataMapper;
     private final ClientRepository clientRepository;
+    private final ClientOrderOutputPort clientOrderAdapter;
 
     @Override
     public void deleteOrder(UUID orderId) {
@@ -31,7 +35,7 @@ public class OrderAdapterImpl implements OrderOutputPort {
 
     @Override
     public Order findById(UUID orderId) {
-        return orderRepository.findById(orderId)
+        return orderRepository.findByIdWithClients(orderId)
                 .map(orderDataMapper::toEntity)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Pedido %s não encontrado", orderId)));
     }
@@ -39,7 +43,9 @@ public class OrderAdapterImpl implements OrderOutputPort {
     @Override
     public Order createOrUpdateTableOrder(Order order) {
         if (order.getOrderId() != null) {
+            clientOrderAdapter.deleteAllByOrderId(order.getOrderId());
             OrderData existingOrder = orderRepository.findById(order.getOrderId()).orElseThrow();
+            existingOrder.setClientOrderDataList(createClientOrderList(order, existingOrder));
             orderDataMapper.updateData(order, existingOrder);
 
             return orderDataMapper.toEntity(orderRepository.save(existingOrder));
@@ -47,14 +53,22 @@ public class OrderAdapterImpl implements OrderOutputPort {
 
         OrderData orderData = orderDataMapper.toData(order);
         orderData.setOrderId(UUID.randomUUID());
+        orderData.setClientOrderDataList(createClientOrderList(order, orderData));
 
-        List<ClientOrderData> clientOrderDataList =
-                order.getClientIdList()
+        Order a = orderDataMapper.toEntity(
+                orderRepository.save(orderData)
+        );
+        return a;
+    }
+
+    private List<ClientOrderData> createClientOrderList(Order order, OrderData orderData) {
+        Set<ClientOrderData> clientOrderDataList =
+                order.getClientOrderList()
                         .stream()
-                        .map(clientId -> {
+                        .map(client -> {
 
                             ClientData clientData = clientRepository
-                                    .findById(clientId)
+                                    .findById(client.getClientId())
                                     .orElseThrow();
 
                             return ClientOrderData.builder()
@@ -68,13 +82,8 @@ public class OrderAdapterImpl implements OrderOutputPort {
                                     .build();
 
                         })
-                        .toList();
-
-        orderData.setClientOrderDataList(clientOrderDataList);
-
-        return orderDataMapper.toEntity(
-                orderRepository.save(orderData)
-        );
+                        .collect(Collectors.toSet());
+        return clientOrderDataList.stream().toList();
     }
 
     @Override

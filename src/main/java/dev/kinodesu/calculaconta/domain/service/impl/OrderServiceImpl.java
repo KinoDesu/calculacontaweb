@@ -36,5 +36,9 @@ public class OrderServiceImpl implements OrderService {
         if (order.getName() == null || order.getName().isBlank()) {
             throw new InvalidValueException("Nome do item inválido");
         }
+
+        if (order.getClientList().isEmpty()) {
+            throw new InvalidValueException("Quantidade de clientes inválida");
+        }
     }
 }

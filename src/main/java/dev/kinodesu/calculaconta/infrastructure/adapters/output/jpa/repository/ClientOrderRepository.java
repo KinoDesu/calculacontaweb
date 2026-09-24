@@ -19,4 +19,11 @@ public interface ClientOrderRepository extends JpaRepository<ClientOrderData, Or
                 WHERE c.orderData.tableData.tableId = :tableId
             """)
     void deleteAllByTableId(UUID tableId);
+
+    @Modifying
+    @Query("""
+                DELETE FROM orderClient c
+                WHERE c.orderData.orderId = :orderId
+            """)
+    void deleteAllByOrderId(UUID orderId);
 }
